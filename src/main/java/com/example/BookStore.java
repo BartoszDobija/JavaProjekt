@@ -17,7 +17,6 @@ public class BookStore {
         book.title = System.console().readLine();
         System.out.println("Release date:");
         book.releaseDate = Integer.parseInt(System.console().readLine());
-        Books.add(book);
     }
 
 /*
