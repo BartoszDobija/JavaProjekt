@@ -3,14 +3,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LibraryViewModel {
-    private List<BookViewModel> Library;
+    private List<BookViewModel> library;
 
     public LibraryViewModel(List<Book> originalBooks){
-        this.Library = new ArrayList<>();
+        this.library = new ArrayList<>();
+
         BookViewModel book;
         for (Book originalBook : originalBooks) {
             book = new BookViewModel(originalBook);
-            this.Library.add(book);
+            this.library.add(book);
+        }
+    }
+
+    public void displayLibrary(){
+        for (BookViewModel book : library) {
+            System.out.println( book.Genre + ": \"" + book.Title + "\" by " + book.Author + " [" + book.ReleaseDate + "]");
         }
     }
 }
