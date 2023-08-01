@@ -26,7 +26,7 @@ public class App
             switch (action){
                 case 1:
                     System.out.println( messages[1] );
-                    viewModel = new LibraryViewModel(library.Books);
+                    viewModel = new LibraryViewModel(library.books);
                     viewModel.displayLibrary();
                     break;
                 case 2:
