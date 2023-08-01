@@ -1,22 +1,30 @@
 package com.example;
 
 import java.util.List;
+import java.util.Scanner;
 
 public class BookStore {
-    List<Book> Books;
+    BookStore()
+    {
+        InitialData testData = new InitialData();
+        books = testData.sampleBooks();
+    }
+    List<Book> books;
     void addBook()
     {
+        Scanner scanner = new Scanner(System.in);
         Book book = new Book();
         System.out.println("Adding new book");
-        book.id = Books.get(Books.size()-1).id + 1;
+        book.id = books.get(books.size()-1).id + 1;
         System.out.println("Author name:");
-        book.author = System.console().readLine();
+        book.author = scanner.nextLine();
         System.out.println("Book title:");
-        book.title = System.console().readLine();
+        book.title = scanner.nextLine();
         System.out.println("Book genre:");
-        book.title = System.console().readLine();
+        book.genre = scanner.nextLine();
         System.out.println("Release date:");
-        book.releaseDate = Integer.parseInt(System.console().readLine());
+        book.releaseDate = scanner.nextInt();
+        books.add(book);
     }
 
 /*
@@ -30,11 +38,11 @@ public class BookStore {
 
     Book showBook(int id)
     {
-        return Books.get(id);
+        return books.get(id);
     }
 
     Book deleteBook(int id)
     {
-        return Books.remove(id);
+        return books.remove(id);
     }
 }
