@@ -1,10 +1,10 @@
 package com.example;
 
 public class Book {
-    int Id;
-    String Title;
-    String Author;
-    String Genre;
-    int ReleaseDate;
-    String Content = "Lorem Ipsum itd itp tutaj tresc ksiazki";
+    int id;
+    String title;
+    String author;
+    String genre;
+    int releaseDate;
+    String content = "Lorem Ipsum itd itp tutaj tresc ksiazki";
 }
