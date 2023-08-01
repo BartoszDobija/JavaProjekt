@@ -4,23 +4,24 @@ import java.util.List;
 
 public class BookStore {
     List<Book> Books;
-    void AddBook()
+    void addBook()
     {
         Book book = new Book();
         System.out.println("Adding new book");
+        book.id = Books.get(Books.size()-1).id + 1;
         System.out.println("Author name:");
-        book.Author = System.console().readLine();
+        book.author = System.console().readLine();
         System.out.println("Book title:");
-        book.Title = System.console().readLine();
+        book.title = System.console().readLine();
         System.out.println("Book genre:");
-        book.Title = System.console().readLine();
+        book.title = System.console().readLine();
         System.out.println("Release date:");
-        book.ReleaseDate = Integer.parseInt(System.console().readLine());
+        book.releaseDate = Integer.parseInt(System.console().readLine());
         Books.add(book);
     }
 
 /*
-    void EditBook(Book book)
+    void editBook(Book book)
     {
         int toChange;
         toChange = Books.indexOf(book);
@@ -28,12 +29,12 @@ public class BookStore {
     }
 */
 
-    Book ShowBook(int id)
+    Book showBook(int id)
     {
         return Books.get(id);
     }
 
-    Book DeleteBook(int id)
+    Book deleteBook(int id)
     {
         return Books.remove(id);
     }
