@@ -1,8 +1,7 @@
 package com.example;
 
-import java.util.Date;
-
 public class Book {
+    int Id;
     String Title;
     String Author;
     String Genre;
