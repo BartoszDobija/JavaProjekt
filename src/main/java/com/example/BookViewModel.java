@@ -7,9 +7,9 @@ public class BookViewModel{
     int ReleaseDate;
 
     public BookViewModel(Book book){
-        this.Title = book.Title;
-        this.Author = book.Author;
-        this.Genre = book.Genre;
-        this.ReleaseDate = book.ReleaseDate;
+        this.Title = book.title;
+        this.Author = book.author;
+        this.Genre = book.genre;
+        this.ReleaseDate = book.releaseDate;
     }
 }
