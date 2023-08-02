@@ -1,10 +1,7 @@
 package com.example.view;
 
-import com.example.viewModel.BookViewModel;
 import com.example.model.Book;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.example.viewModel.BookViewModel;
 
 public class BookConsolePrinter {
 
@@ -15,6 +12,10 @@ public class BookConsolePrinter {
     }
 
     public void printBook() {
-        System.out.println( book.getTitle() + "\" by " + book.getAuthor() + " [" + book.getReleaseDate() + "]");
+        System.out.println("\"" + book.getTitle() + "\" by " + book.getAuthor() + " [" + book.getReleaseDate() + "]");
+    }
+
+    public void shortPrintBook(int i) {
+        System.out.println(i + ". " + book.getTitle());
     }
 }
