@@ -15,6 +15,6 @@ public class BookConsolePrinter {
     }
 
     public void printBook() {
-        System.out.println( book.getTitle() + "\" by " + book.getAuthor() + " [" + book.getReleaseDate() + "]");
+        System.out.println(book.getTitle() + "\" by " + book.getAuthor() + " [" + book.getReleaseDate() + "]");
     }
 }
