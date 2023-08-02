@@ -23,8 +23,6 @@ public class LibraryApp {
     }
 
     public void run() {
-
-        execute();
         boolean running = true;
         while (running) {
             running = execute();
