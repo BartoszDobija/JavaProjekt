@@ -1,7 +1,6 @@
 
 package com.example;
         import com.example.controller.BookStore;
-        import com.example.view.Library;
 
         import java.util.Scanner;
 
@@ -13,7 +12,7 @@ public class App
 {
     public static void main( String[] args ) {
         BookStore bookStore = new BookStore();
-        Library library;
+        //Library library;
         Scanner scanner = new Scanner(System.in);
         String[] messages = {
                 "welcome to library service! \nplease select action: \n1: list books in library \n2: add new book",
@@ -29,8 +28,8 @@ public class App
             switch (action) {
                 case 1 -> {
                     System.out.println(messages[1]);
-                    library = new Library(bookStore.books);
-                    library.displayLibrary();
+                    //library = new Library(bookStore.books);
+                    //library.displayLibrary();
                 }
                 case 2 -> bookStore.addBook();
                 default -> System.out.println(messages[3]);

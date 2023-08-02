@@ -8,21 +8,13 @@ import java.util.List;
 
 public class BookConsolePrinter {
 
-    private List<BookViewModel> library;
+    private BookViewModel book;
 
-    public BookConsolePrinter(List<Book> originalBooks) {
-        this.library = new ArrayList<>();
-
-        BookViewModel book;
-        for (Book originalBook : originalBooks) {
-            book = new BookViewModel(originalBook);
-            this.library.add(book);
-        }
+    public BookConsolePrinter(Book book) {
+        this.book = new BookViewModel(book);
     }
 
-    public void displayLibrary() {
-        for (BookViewModel book : library) {
-            System.out.println(book.getGenre() + ": \"" + book.getTitle() + "\" by " + book.getAuthor() + " [" + book.getReleaseDate() + "]");
-        }
+    public void printBook() {
+        System.out.println( book.getTitle() + "\" by " + book.getAuthor() + " [" + book.getReleaseDate() + "]");
     }
 }
