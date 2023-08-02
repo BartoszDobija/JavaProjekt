@@ -1,26 +1,23 @@
-package works.buddy.solutions.util;
+package works.buddy.solutions.services;
 
 import works.buddy.solutions.model.Problem;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
-public class SolutionUtils {
+import static works.buddy.solutions.util.FileUtils.readClasspathResource;
+
+public class StartupDataInitializer {
 
     private static final String SEPARATOR = ",";
 
-    private SolutionUtils() {
+    private StartupDataInitializer() {
     }
 
     public static Map<Integer, Problem> readFromFile(String path) {
         Map<Integer, Problem> database = new HashMap<>();
         Problem lastProblem = null;
-        for (String line : getLines(path)) {
+        for (String line : readClasspathResource(path)) {
             String[] parts = line.split(SEPARATOR);
             if (isSolution(line)) {
                 validateSolutionIsAfterProblem(lastProblem, line);
@@ -41,13 +38,5 @@ public class SolutionUtils {
 
     private static boolean isSolution(String line) {
         return line.startsWith("-");
-    }
-
-    private static List<String> getLines(String path) {
-        try {
-            return Files.readAllLines(Paths.get(Objects.requireNonNull(SolutionUtils.class.getResource(path)).getPath()));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 }

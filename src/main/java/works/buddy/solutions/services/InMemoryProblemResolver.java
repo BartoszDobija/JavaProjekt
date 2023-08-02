@@ -1,4 +1,4 @@
-package works.buddy.solutions;
+package works.buddy.solutions.services;
 
 import works.buddy.solutions.model.Problem;
 import works.buddy.solutions.model.Solution;
