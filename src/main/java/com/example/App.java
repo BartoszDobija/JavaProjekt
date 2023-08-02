@@ -1,5 +1,8 @@
 
 package com.example;
+        import com.example.controller.BookStore;
+        import com.example.view.Library;
+
         import java.util.Scanner;
 
 /**
@@ -13,8 +16,8 @@ public class App
         Library library;
         Scanner scanner = new Scanner(System.in);
         String[] messages = {
-                "welcome to bookStore service! \nplease select action: \n1: list books in bookStore \n2: add new book",
-                "the bookStore contains:",
+                "welcome to library service! \nplease select action: \n1: list books in library \n2: add new book",
+                "the library contains:",
                 "enter book data: ",
                 "wrong operation [insert number number corresponding with the action]",
                 "do you wish to continue? 1: yes"

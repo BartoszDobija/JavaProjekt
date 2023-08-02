@@ -1,19 +1,22 @@
-package com.example;
+package com.example.controller;
+
+import com.example.data.InitialData;
+import com.example.model.Book;
 
 import java.util.List;
 import java.util.Scanner;
 
 public class BookStore {
 
-    BookStore() {
+    public BookStore() {
         // wprowadzić Dependency Injection
         InitialData testData = new InitialData();
         books = testData.sampleBooks();
     }
 
-    List<Book> books;
+    public List<Book> books;
 
-    void addBook() {
+    public void addBook() {
         // przenieść to do Book
         Scanner scanner = new Scanner(System.in);
         Book book = new Book();

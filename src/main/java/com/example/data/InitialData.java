@@ -1,11 +1,14 @@
-package com.example;
+package com.example.data;
+
+import com.example.model.Book;
 
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class InitialData {
 
-    List<Book> sampleBooks() {
+    public List<Book> sampleBooks() {
         List<Book> books = new ArrayList() {{
             add(new Book(1, "Anna Karenina", "Leo Tolstoy", "Fiction", 1877));
             add(new Book(2, "To Kill a Mockingbird", "Harper Lee,", "Coming-of-age story", 1960));

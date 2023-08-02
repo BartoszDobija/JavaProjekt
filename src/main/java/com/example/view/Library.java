@@ -1,4 +1,7 @@
-package com.example;
+package com.example.view;
+
+import com.example.viewModel.BookViewModel;
+import com.example.model.Book;
 
 import java.util.ArrayList;
 import java.util.List;

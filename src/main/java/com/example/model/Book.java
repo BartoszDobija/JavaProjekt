@@ -1,4 +1,4 @@
-package com.example;
+package com.example.model;
 
 public class Book {
 
@@ -14,11 +14,11 @@ public class Book {
 
     private String content = "Lorem Ipsum itd itp tutaj tresc ksiazki";
 
-    Book() {
+    public Book() {
 
     }
 
-    Book(int id, String title, String author, String genre, int releaseDate) {
+    public Book(int id, String title, String author, String genre, int releaseDate) {
         this.id = id;
         this.title = title;
         this.author = author;

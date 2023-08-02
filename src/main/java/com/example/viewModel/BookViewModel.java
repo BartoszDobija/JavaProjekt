@@ -1,4 +1,6 @@
-package com.example;
+package com.example.viewModel;
+
+import com.example.model.Book;
 
 public class BookViewModel {
 
