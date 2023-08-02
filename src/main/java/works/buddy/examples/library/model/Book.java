@@ -2,7 +2,7 @@ package works.buddy.examples.library.model;
 
 public class Book {
 
-    private int id;
+    private Integer id;
 
     private String title;
 
@@ -10,7 +10,7 @@ public class Book {
 
     private String genre;
 
-    private int releaseDate;
+    private Integer releaseDate;
 
     private String content = "Lorem Ipsum itd itp tutaj tresc ksiazki";
 
@@ -18,7 +18,7 @@ public class Book {
 
     }
 
-    public Book(int id, String title, String author, String genre, int releaseDate) {
+    public Book(Integer id, String title, String author, String genre, int releaseDate) {
         this.id = id;
         this.title = title;
         this.author = author;
@@ -26,7 +26,7 @@ public class Book {
         this.releaseDate = releaseDate;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 

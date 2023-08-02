@@ -2,30 +2,30 @@ package works.buddy.examples.library.controller;
 
 import works.buddy.examples.library.model.Book;
 
-import java.util.List;
+import java.util.Collection;
 
 public class BookStore {
 
-    public BookStore(List<Book> books) {
+    private Collection<Book> books;
+
+    public BookStore(Collection<Book> books) {
         this.books = books;
     }
 
-    public List<Book> books;
-
-    public void addBook(Book book) {
+    public void add(Book book) {
         book.setId(getNextId());
         books.add(book);
     }
 
-    private int getNextId() {
-        return books.get(books.size() - 1).getId() + 1;
+    private Integer getNextId() {
+        return books.stream().mapToInt(Book::getId).max().orElse(0) + 1;
     }
 
-    public Book showBook(int id) {
-        return books.get(id);
+    public Book findById(Integer id) {
+        return books.stream().filter(b->b.getId().equals(id)).findFirst().orElseThrow();
     }
 
-    Book deleteBook(int id) {
-        return books.remove(id);
+    public void deleteBook(Integer id) {
+        books.remove(findById(id));
     }
 }

@@ -9,7 +9,7 @@ import works.buddy.examples.library.view.MessageConsolePrinter;
 
 import java.util.Scanner;
 
-public class BookController {
+public class LibraryApp {
 
     private BookStore bookStore;
 
@@ -17,14 +17,21 @@ public class BookController {
 
     private Scanner scanner;
 
-    public BookController() {
+    public LibraryApp() {
         this.bookStore = new BookStore(new InitialData().getSampleBooks());
         this.messageConsolePrinter = new MessageConsolePrinter();
         this.scanner = new Scanner(System.in);
     }
 
-    public boolean begin() {
-        messageConsolePrinter.printMessage("welcome");
+    public void run() {
+        boolean running = true;
+        while (running) {
+            running = execute();
+        }
+    }
+
+    public boolean execute() {
+        messageConsolePrinter.printMessage("Welcome!");
         boolean running = true;
         switch (scanner.nextLine()) {
             case "1" -> listBookStore();
@@ -44,13 +51,13 @@ public class BookController {
         }
         BookFindDialog bookFindDialog = new BookFindDialog(scanner);
         int id = bookFindDialog.getBookId();
-        BookConsolePrinter bookConsolePrinter = new BookConsolePrinter(bookStore.showBook(id - 1));
+        BookConsolePrinter bookConsolePrinter = new BookConsolePrinter(bookStore.findById(id - 1));
         bookConsolePrinter.printBook();
     }
 
     private void addBookToStore() {
         BookAddDialog bookAddDialog = new BookAddDialog(scanner);
-        bookStore.addBook(bookAddDialog.createBook());
+        bookStore.add(bookAddDialog.createBook());
     }
 
     public void listBookStore() {
