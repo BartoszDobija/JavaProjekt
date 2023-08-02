@@ -3,11 +3,11 @@ package com.example;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LibraryViewModel {
+public class BookConsolePrinter {
 
     private List<BookViewModel> library;
 
-    public LibraryViewModel(List<Book> originalBooks) {
+    public BookConsolePrinter(List<Book> originalBooks) {
         this.library = new ArrayList<>();
 
         BookViewModel book;
@@ -19,7 +19,7 @@ public class LibraryViewModel {
 
     public void displayLibrary() {
         for (BookViewModel book : library) {
-            System.out.println(book.Genre + ": \"" + book.Title + "\" by " + book.Author + " [" + book.ReleaseDate + "]");
+            System.out.println(book.getGenre() + ": \"" + book.getTitle() + "\" by " + book.getAuthor() + " [" + book.getReleaseDate() + "]");
         }
     }
 }

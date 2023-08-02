@@ -19,7 +19,7 @@ public class Library {
 
     public void displayLibrary() {
         for (BookViewModel book : books) {
-            System.out.println(book.genre + ": \"" + book.title + "\" by " + book.author + " [" + book.ReleaseDate + "]");
+            System.out.println(book.getGenre() + ": \"" + book.getTitle() + "\" by " + book.getAuthor() + " [" + book.getReleaseDate() + "]");
         }
     }
 }
