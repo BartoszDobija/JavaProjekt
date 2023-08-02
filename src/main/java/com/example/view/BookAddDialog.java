@@ -12,7 +12,7 @@ public class BookAddDialog {
         this.scanner = scanner;
     }
 
-    Book createBook() {
+    public Book createBook() {
         Book book = new Book();
         System.out.println("Adding new book");
         System.out.println("Author name:");

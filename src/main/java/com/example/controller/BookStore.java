@@ -1,10 +1,8 @@
 package com.example.controller;
 
-import com.example.data.InitialData;
 import com.example.model.Book;
 
 import java.util.List;
-import java.util.Scanner;
 
 public class BookStore {
 
@@ -32,7 +30,7 @@ public class BookStore {
     }
 */
 
-    Book showBook(int id) {
+    public Book showBook(int id) {
         return books.get(id);
     }
 
