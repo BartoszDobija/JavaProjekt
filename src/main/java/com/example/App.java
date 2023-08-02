@@ -1,6 +1,7 @@
 
 package com.example;
         import com.example.controller.BookStore;
+        import com.example.data.InitialData;
 
         import java.util.Scanner;
 
@@ -11,7 +12,7 @@ package com.example;
 public class App
 {
     public static void main( String[] args ) {
-        BookStore bookStore = new BookStore();
+        BookStore bookStore = new BookStore(new InitialData().getSampleBooks());
         //Library library;
         Scanner scanner = new Scanner(System.in);
         String[] messages = {

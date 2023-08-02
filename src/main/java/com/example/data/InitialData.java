@@ -8,7 +8,7 @@ import java.util.List;
 
 public class InitialData {
 
-    public List<Book> sampleBooks() {
+    public List<Book> getSampleBooks() {
         List<Book> books = new ArrayList() {{
             add(new Book(1, "Anna Karenina", "Leo Tolstoy", "Fiction", 1877));
             add(new Book(2, "To Kill a Mockingbird", "Harper Lee,", "Coming-of-age story", 1960));
