@@ -1,15 +1,51 @@
 package com.example;
 
-public class BookViewModel{
-    String Title;
-    String Author;
-    String Genre;
-    int ReleaseDate;
+public class BookViewModel {
 
-    public BookViewModel(Book book){
-        this.Title = book.title;
-        this.Author = book.author;
-        this.Genre = book.genre;
-        this.ReleaseDate = book.releaseDate;
+    private String title;
+
+    private String author;
+
+    private String genre;
+
+    private int releaseDate;
+
+    public BookViewModel(Book book) {
+        this.title = book.title;
+        this.author = book.author;
+        this.genre = book.genre;
+        this.releaseDate = book.releaseDate;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public int getReleaseDate() {
+        return releaseDate;
+    }
+
+    public void setReleaseDate(int releaseDate) {
+        this.releaseDate = releaseDate;
     }
 }

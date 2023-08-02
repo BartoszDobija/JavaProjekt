@@ -10,7 +10,7 @@ public class App
 {
     public static void main( String[] args ) {
         BookStore library = new BookStore();
-        LibraryViewModel viewModel;
+        Library viewModel;
         Scanner scanner = new Scanner(System.in);
         String[] messages = {
                 "welcome to library service! \nplease select action: \n1: list books in library \n2: add new book",
@@ -26,7 +26,7 @@ public class App
             switch (action){
                 case 1:
                     System.out.println( messages[1] );
-                    viewModel = new LibraryViewModel(library.books);
+                    viewModel = new Library(library.books);
                     viewModel.displayLibrary();
                     break;
                 case 2:
