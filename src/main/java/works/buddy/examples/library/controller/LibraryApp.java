@@ -23,6 +23,8 @@ public class LibraryApp {
     }
 
     public void run() {
+
+        execute();
         boolean running = true;
         while (running) {
             running = execute();
@@ -30,7 +32,7 @@ public class LibraryApp {
     }
 
     public boolean execute() {
-        messageConsolePrinter.printMessage("Welcome!");
+        messageConsolePrinter.printMessage("welcome");
         boolean running = true;
         switch (scanner.nextLine()) {
             case "1" -> listBookStore();
