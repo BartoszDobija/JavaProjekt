@@ -18,15 +18,15 @@ public class BookStore {
         Scanner scanner = new Scanner(System.in);
         Book book = new Book();
         System.out.println("Adding new book");
-        book.id = books.get(books.size() - 1).id + 1;
+        book.setId(books.get(books.size() - 1).getId() + 1);
         System.out.println("Author name:");
-        book.author = scanner.nextLine();
+        book.setAuthor(scanner.nextLine());
         System.out.println("Book title:");
-        book.title = scanner.nextLine();
+        book.setTitle(scanner.nextLine());
         System.out.println("Book genre:");
-        book.genre = scanner.nextLine();
+        book.setGenre(scanner.nextLine());
         System.out.println("Release date:");
-        book.releaseDate = scanner.nextInt();
+        book.setReleaseDate(scanner.nextInt());
         books.add(book);
     }
 

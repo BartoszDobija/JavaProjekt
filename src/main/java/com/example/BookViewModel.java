@@ -11,10 +11,10 @@ public class BookViewModel {
     private int releaseDate;
 
     public BookViewModel(Book book) {
-        this.title = book.title;
-        this.author = book.author;
-        this.genre = book.genre;
-        this.releaseDate = book.releaseDate;
+        this.title = book.getTitle();
+        this.author = book.getAuthor();
+        this.genre = book.getGenre();
+        this.releaseDate = book.getReleaseDate();
     }
 
     public String getTitle() {
