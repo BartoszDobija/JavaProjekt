@@ -1,0 +1,6 @@
+welcome;welcome to library service! Please select action: 1: list books in library 2: add new book 3: find book by id 4: exit
+showLibrary;the library contains:
+addBook;enter book data:
+findById;enter id to find a book
+error;wrong operation [insert number number corresponding with the action]
+end;do you wish to continue? 1: yes
