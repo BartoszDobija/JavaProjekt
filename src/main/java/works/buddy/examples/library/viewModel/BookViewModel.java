@@ -1,6 +1,6 @@
-package com.example.viewModel;
+package works.buddy.examples.library.viewModel;
 
-import com.example.model.Book;
+import works.buddy.examples.library.model.Book;
 
 public class BookViewModel {
 

@@ -1,4 +1,4 @@
-package com.example.view;
+package works.buddy.examples.library.view;
 
 import java.util.Scanner;
 

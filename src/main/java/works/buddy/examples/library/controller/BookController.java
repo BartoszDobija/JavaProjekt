@@ -1,11 +1,11 @@
-package com.example.controller;
+package works.buddy.examples.library.controller;
 
-import com.example.data.InitialData;
-import com.example.model.Book;
-import com.example.view.BookAddDialog;
-import com.example.view.BookConsolePrinter;
-import com.example.view.BookFindDialog;
-import com.example.view.MessageConsolePrinter;
+import works.buddy.examples.library.data.InitialData;
+import works.buddy.examples.library.model.Book;
+import works.buddy.examples.library.view.BookAddDialog;
+import works.buddy.examples.library.view.BookConsolePrinter;
+import works.buddy.examples.library.view.BookFindDialog;
+import works.buddy.examples.library.view.MessageConsolePrinter;
 
 import java.util.Scanner;
 

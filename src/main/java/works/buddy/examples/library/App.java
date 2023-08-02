@@ -1,10 +1,7 @@
-package com.example;
+package works.buddy.examples.library;
 
-import com.example.controller.BookController;
+import works.buddy.examples.library.controller.BookController;
 
-/**
- * Hello world!
- */
 public class App {
 
     public static void main(String[] args) {

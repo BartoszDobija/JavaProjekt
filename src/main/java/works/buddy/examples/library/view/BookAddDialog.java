@@ -1,6 +1,6 @@
-package com.example.view;
+package works.buddy.examples.library.view;
 
-import com.example.model.Book;
+import works.buddy.examples.library.model.Book;
 
 import java.util.Scanner;
 

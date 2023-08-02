@@ -1,6 +1,6 @@
-package com.example.controller;
+package works.buddy.examples.library.controller;
 
-import com.example.model.Book;
+import works.buddy.examples.library.model.Book;
 
 import java.util.List;
 
@@ -20,15 +20,6 @@ public class BookStore {
     private int getNextId() {
         return books.get(books.size() - 1).getId() + 1;
     }
-
-/*
-    void editBook(Book book)
-    {
-        int toChange;
-        toChange = Books.indexOf(book);
-        Books.set(toChange, book);
-    }
-*/
 
     public Book showBook(int id) {
         return books.get(id);

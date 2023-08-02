@@ -1,7 +1,7 @@
-package com.example.view;
+package works.buddy.examples.library.view;
 
-import com.example.model.Book;
-import com.example.viewModel.BookViewModel;
+import works.buddy.examples.library.model.Book;
+import works.buddy.examples.library.viewModel.BookViewModel;
 
 public class BookConsolePrinter {
 

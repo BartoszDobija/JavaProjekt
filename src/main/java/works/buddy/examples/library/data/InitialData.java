@@ -1,6 +1,6 @@
-package com.example.data;
+package works.buddy.examples.library.data;
 
-import com.example.model.Book;
+import works.buddy.examples.library.model.Book;
 
 import java.util.ArrayList;
 import java.util.List;

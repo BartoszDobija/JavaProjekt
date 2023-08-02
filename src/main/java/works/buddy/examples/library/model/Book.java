@@ -1,4 +1,4 @@
-package com.example.model;
+package works.buddy.examples.library.model;
 
 public class Book {
 
