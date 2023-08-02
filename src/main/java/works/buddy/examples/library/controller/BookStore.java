@@ -17,12 +17,16 @@ public class BookStore {
         books.add(book);
     }
 
+    public Integer getBookStoreSize() {
+        return books.size();
+    }
+
     private Integer getNextId() {
         return books.stream().mapToInt(Book::getId).max().orElse(0) + 1;
     }
 
     public Book findById(Integer id) {
-        return books.stream().filter(b->b.getId().equals(id)).findFirst().orElseThrow();
+        return books.stream().filter(b -> b.getId().equals(id)).findFirst().orElseThrow();
     }
 
     public void deleteBook(Integer id) {

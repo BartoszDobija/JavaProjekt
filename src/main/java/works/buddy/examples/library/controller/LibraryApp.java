@@ -1,7 +1,6 @@
 package works.buddy.examples.library.controller;
 
 import works.buddy.examples.library.data.InitialData;
-import works.buddy.examples.library.model.Book;
 import works.buddy.examples.library.view.BookAddDialog;
 import works.buddy.examples.library.view.BookConsolePrinter;
 import works.buddy.examples.library.view.BookFindDialog;
@@ -45,13 +44,14 @@ public class LibraryApp {
 
     private void findBookById() {
         messageConsolePrinter.printMessage("showById");
-        for (int i = 0; i < bookStore.books.size(); i++) {
-            BookConsolePrinter bookConsolePrinter = new BookConsolePrinter(bookStore.books.get(i));
+        BookConsolePrinter bookConsolePrinter;
+        for (int i = 0; i < bookStore.getBookStoreSize(); i++) {
+            bookConsolePrinter = new BookConsolePrinter(bookStore.findById(i));
             bookConsolePrinter.shortPrintBook(i + 1);
         }
         BookFindDialog bookFindDialog = new BookFindDialog(scanner);
         int id = bookFindDialog.getBookId();
-        BookConsolePrinter bookConsolePrinter = new BookConsolePrinter(bookStore.findById(id - 1));
+        bookConsolePrinter = new BookConsolePrinter(bookStore.findById(id - 1));
         bookConsolePrinter.printBook();
     }
 
@@ -63,8 +63,8 @@ public class LibraryApp {
     public void listBookStore() {
         messageConsolePrinter.printMessage("showLibrary");
         BookConsolePrinter bookConsolePrinter;
-        for (Book book : bookStore.books) {
-            bookConsolePrinter = new BookConsolePrinter(book);
+        for (int i = 0; i < bookStore.getBookStoreSize(); i++) {
+            bookConsolePrinter = new BookConsolePrinter(bookStore.findById(i));
             bookConsolePrinter.printBook();
         }
     }
