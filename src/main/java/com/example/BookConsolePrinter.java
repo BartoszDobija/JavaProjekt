@@ -19,7 +19,7 @@ public class LibraryViewModel {
 
     public void displayLibrary() {
         for (BookViewModel book : library) {
-            System.out.println(book.Genre + ": \"" + book.Title + "\" by " + book.Author + " [" + book.ReleaseDate + "]");
+            System.out.println( book.Title + "\" by " + book.Author + " [" + book.ReleaseDate + "]");
         }
     }
 }
