@@ -6,9 +6,14 @@ import java.util.Scanner;
 
 public class BookAddDialog {
 
+    private Scanner scanner;
+
+    public BookAddDialog(Scanner scanner) {
+        this.scanner = scanner;
+    }
+
     Book createBook() {
         Book book = new Book();
-        Scanner scanner = new Scanner(System.in);
         System.out.println("Adding new book");
         System.out.println("Author name:");
         book.setAuthor(scanner.nextLine());
