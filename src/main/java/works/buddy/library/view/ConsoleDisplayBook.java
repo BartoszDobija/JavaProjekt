@@ -6,7 +6,7 @@ public class ConsoleDisplayBook implements DisplayBook {
 
     @Override
     public void details(Book book) {
-        System.out.println(book.getTitle() + " by " + book.getAuthor() + " [" + book.getReleaseDate() + "]");
+        System.out.println(book.getTitle() + " by " + book.getAuthor() + " [" + book.getReleaseYear() + "]");
     }
 
     @Override

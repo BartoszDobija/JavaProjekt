@@ -10,7 +10,7 @@ public class Book {
 
     private String genre;
 
-    private Integer releaseDate;
+    private Integer releaseYear;
 
     private String content = "Lorem Ipsum itd itp tutaj tresc ksiazki";
 
@@ -18,12 +18,12 @@ public class Book {
 
     }
 
-    public Book(Integer id, String title, String author, String genre, int releaseDate) {
+    public Book(Integer id, String title, String author, String genre, int releaseYear) {
         this.id = id;
         this.title = title;
         this.author = author;
         this.genre = genre;
-        this.releaseDate = releaseDate;
+        this.releaseYear = releaseYear;
     }
 
     public Integer getId() {
@@ -58,12 +58,12 @@ public class Book {
         this.genre = genre;
     }
 
-    public int getReleaseDate() {
-        return releaseDate;
+    public int getReleaseYear() {
+        return releaseYear;
     }
 
-    public void setReleaseDate(int releaseDate) {
-        this.releaseDate = releaseDate;
+    public void setReleaseYear(int releaseYear) {
+        this.releaseYear = releaseYear;
     }
 
     public String getContent() {

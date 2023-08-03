@@ -25,7 +25,7 @@ public class ConsoleUserDialog implements UserDialog {
         System.out.println(getMessage("bookDataGenre"));
         book.setGenre(scanner.nextLine());
         System.out.println(getMessage("bookDataRelease"));
-        book.setReleaseDate(scanner.nextInt());
+        book.setReleaseYear(scanner.nextInt());
         scanner.nextLine();
         return book;
     }
@@ -60,7 +60,7 @@ public class ConsoleUserDialog implements UserDialog {
         System.out.println(getMessage("bookDataGenre"));
         book.setGenre(scanner.nextLine());
         System.out.println(getMessage("bookDataRelease"));
-        book.setReleaseDate(scanner.nextInt());
+        book.setReleaseYear(scanner.nextInt());
         scanner.nextLine();
         return book;
     }
