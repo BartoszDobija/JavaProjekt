@@ -11,6 +11,14 @@ public class InMemoryBookDAO implements BookDAO {
     public InMemoryBookDAO(Collection<Book> books) {
         this.books = books;
     }
+    private int getNextId() {
+        return books.stream().mapToInt(Book::getId).max().orElse(0) + 1;
+    }
+
+    @Override
+    public Collection<Book> getAll() {
+        return books;
+    }
 
     @Override
     public void add(Book book) {
@@ -18,13 +26,14 @@ public class InMemoryBookDAO implements BookDAO {
         books.add(book);
     }
 
-    private int getNextId() {
-        return books.stream().mapToInt(Book::getId).max().orElse(0) + 1;
-    }
 
     @Override
     public Book findById(Integer id) {
         return books.stream().filter(b -> b.getId().equals(id)).findFirst().orElseThrow();
+    }
+    @Override
+    public boolean checkIfIdExists(Integer id) {
+        return books.stream().anyMatch(b -> b.getId().equals(id));
     }
 
     @Override

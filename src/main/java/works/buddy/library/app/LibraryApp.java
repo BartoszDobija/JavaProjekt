@@ -43,16 +43,29 @@ public class LibraryApp {
     }
 
     private void editBook() {
+        Book book = userDialog.editBookDialog();
+        if (!bookDao.checkIfIdExists(book.getId())) {
+            userDialog.errorDialog();
+            return;
+        }
         bookDao.edit(userDialog.editBookDialog());
     }
 
     private void deleteBook() {
         int id = userDialog.removeBookDialog();
+        if (!bookDao.checkIfIdExists(id)) {
+            userDialog.errorDialog();
+            return;
+        }
         bookDao.delete(bookDao.findById(id));
     }
 
     private void findBook() {
         int id = userDialog.findBookDialog();
+        if (!bookDao.checkIfIdExists(id)) {
+            userDialog.errorDialog();
+            return;
+        }
         displayBook.details(bookDao.findById(id));
     }
 
@@ -62,8 +75,8 @@ public class LibraryApp {
     }
 
     public void listBooks() {
-        for (int i = 0; i < bookDao.getBooksCount(); i++) {
-            displayBook.title(bookDao.findById(i));
+        for (Book book : bookDao.getAll()) {
+            displayBook.title(book);
         }
     }
 
