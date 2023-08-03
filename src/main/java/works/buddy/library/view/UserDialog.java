@@ -8,5 +8,5 @@ public interface UserDialog {
     int removeBookDialog();
     Book editBookDialog();
     int menuDialog();
-    void errorDialog();
+    void errorDialog(String key);
 }

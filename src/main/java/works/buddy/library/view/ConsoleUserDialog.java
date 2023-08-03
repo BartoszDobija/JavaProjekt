@@ -77,8 +77,8 @@ public class ConsoleUserDialog implements UserDialog {
     }
 
     @Override
-    public void errorDialog() {
-        System.out.println(getMessage("bookNotFoundError"));
+    public void errorDialog(String key) {
+        System.out.println(getMessage(key));
         scanner.nextLine();
     }
 }
