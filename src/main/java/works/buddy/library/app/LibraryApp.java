@@ -33,10 +33,10 @@ public class LibraryApp {
 
         switch (userDialog.menuDialog()) {
             case 1 -> listBooks();
-            case 2 -> addBook();
-            case 3 -> findBook();
-            case 4 -> deleteBook();
-            case 5 -> editBook();
+            case 2 -> findBook();
+            case 3 -> addBook();
+            case 4 -> editBook();
+            case 5 -> deleteBook();
             case 6 -> running = false;
             default -> printMessage("error");
         }
