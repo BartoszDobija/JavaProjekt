@@ -1,4 +1,4 @@
-package works.buddy.examples.library.utilities;
+package works.buddy.examples.library.utility;
 
 import java.util.Scanner;
 

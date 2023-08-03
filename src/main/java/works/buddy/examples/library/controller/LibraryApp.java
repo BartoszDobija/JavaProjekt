@@ -1,6 +1,7 @@
 package works.buddy.examples.library.controller;
 
 import works.buddy.examples.library.data.InitialData;
+import works.buddy.examples.library.utility.ConsoleInputValidation;
 import works.buddy.examples.library.view.BookAddDialog;
 import works.buddy.examples.library.view.BookConsolePrinter;
 import works.buddy.examples.library.view.BookFindDialog;
@@ -32,11 +33,11 @@ public class LibraryApp {
     public boolean execute() {
         messageConsolePrinter.printMessage("welcome");
         boolean running = true;
-        switch (scanner.nextLine()) {
-            case "1" -> listBookStore();
-            case "2" -> addBookToStore();
-            case "3" -> findBookById();
-            case "4" -> running = false;
+        switch (ConsoleInputValidation.inputNumber(scanner)) {
+            case 1 -> listBookStore();
+            case 2 -> addBookToStore();
+            case 3 -> findBookById();
+            case 4 -> running = false;
             default -> messageConsolePrinter.printMessage("error");
         }
         return running;
