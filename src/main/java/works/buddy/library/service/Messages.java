@@ -13,6 +13,6 @@ public class Messages {
     }
 
     public static String getMessage(String key) {
-        return messages.getProperty("key");
+        return messages.getProperty(key);
     }
 }

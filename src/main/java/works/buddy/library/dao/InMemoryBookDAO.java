@@ -28,8 +28,8 @@ public class InMemoryBookDAO implements BookDAO {
     }
 
     @Override
-    public boolean delete(Book book) {
-        return books.remove(book);
+    public void delete(Book book) {
+        books.remove(book);
     }
 
     @Override
