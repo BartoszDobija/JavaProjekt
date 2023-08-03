@@ -44,7 +44,7 @@ public class LibraryApp {
     }
 
     private void findBookById() {
-        messageConsolePrinter.printMessage("showById");
+        messageConsolePrinter.printMessage("findById");
         BookConsolePrinter bookConsolePrinter;
         for (int i = 0; i < bookStore.getBookStoreSize(); i++) {
             bookConsolePrinter = new BookConsolePrinter(bookStore.findById(i));
@@ -57,6 +57,7 @@ public class LibraryApp {
     }
 
     private void addBookToStore() {
+        messageConsolePrinter.printMessage("addBook");
         BookAddDialog bookAddDialog = new BookAddDialog(scanner);
         bookStore.add(bookAddDialog.createBook());
     }
