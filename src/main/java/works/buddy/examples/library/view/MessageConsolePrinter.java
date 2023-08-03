@@ -1,18 +1,13 @@
 package works.buddy.examples.library.view;
-import java.util.Map;
-import java.util.HashMap;
 
-import static works.buddy.examples.library.data.InitMessages.getMessages;
+import java.util.Properties;
+
+import static works.buddy.examples.library.utility.PropertiesReader.getProperties;
 
 public class MessageConsolePrinter {
-    private Map<String, String> messages;
-    public MessageConsolePrinter(){
-        this.messages = getMessages();
-
-    }
-
-    public void printMessage(String name){
-        String message = messages.get(name);
+    public static void printMessage(String key){
+        Properties messages = getProperties("messages.properties");
+        String message = messages.getProperty(key);
         System.out.println( message );
     }
 }
