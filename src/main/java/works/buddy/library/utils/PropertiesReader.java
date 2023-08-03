@@ -6,7 +6,6 @@ import java.util.Properties;
 public class PropertiesReader {
 
     public static Properties getProperties(String name) {
-
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
         Properties properties = new Properties();
         try {
