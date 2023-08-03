@@ -8,9 +8,9 @@ public interface BookDAO {
 
     Book findById(Integer id);
 
-    boolean delete(Integer id);
+    boolean delete(Book book);
 
-    void edit(Integer id);
+    void edit(Book book);
 
     Integer getBooksCount();
 }
