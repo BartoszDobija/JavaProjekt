@@ -1,7 +1,5 @@
 package works.buddy.library.app;
 
-import works.buddy.examples.library.utility.ConsoleInputValidation;
-import works.buddy.examples.library.view.BookConsolePrinter;
 import works.buddy.library.dao.BookDAO;
 import works.buddy.library.model.Book;
 import works.buddy.library.view.DisplayBook;
