@@ -35,10 +35,21 @@ public class LibraryApp {
             case 1 -> listBooks();
             case 2 -> addBook();
             case 3 -> findBook();
-            case 4 -> running = false;
+            case 4 -> deleteBook();
+            case 5 -> editBook();
+            case 6 -> running = false;
             default -> printMessage("error");
         }
         return running;
+    }
+
+    private void editBook() {
+        bookDao.edit(userDialog.editBookDialog());
+    }
+
+    private void deleteBook() {
+        int id = userDialog.removeBookDialog();
+        bookDao.delete(bookDao.findById(id));
     }
 
     private void findBook() {
