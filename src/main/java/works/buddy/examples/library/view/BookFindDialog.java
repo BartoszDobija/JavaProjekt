@@ -1,16 +1,11 @@
 package works.buddy.examples.library.view;
 
+import works.buddy.examples.library.utility.ConsoleInputValidation;
+
 import java.util.Scanner;
 
 public class BookFindDialog {
-
-    private Scanner scanner;
-
-    public BookFindDialog(Scanner scanner) {
-        this.scanner = scanner;
-    }
-
-    public int getBookId() {
-        return scanner.nextInt();
+    public static int getBookId(Scanner scanner) {
+        return ConsoleInputValidation.inputNumber(scanner);
     }
 }

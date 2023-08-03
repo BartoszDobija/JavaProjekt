@@ -1,6 +1,7 @@
 package works.buddy.examples.library.controller;
 
 import works.buddy.examples.library.data.InitialData;
+import works.buddy.examples.library.service.BookService;
 import works.buddy.examples.library.utility.ConsoleInputValidation;
 import works.buddy.examples.library.view.BookAddDialog;
 import works.buddy.examples.library.view.BookConsolePrinter;
@@ -12,12 +13,12 @@ import static works.buddy.examples.library.view.MessageConsolePrinter.printMessa
 
 public class LibraryApp {
 
-    private BookStore bookStore;
+    private final BookService bookService;
 
-    private Scanner scanner;
+    private final Scanner scanner;
 
     public LibraryApp() {
-        this.bookStore = new BookStore(new InitialData().getSampleBooks());
+        this.bookService = new BookService(new InitialData().getSampleBooks());
         this.scanner = new Scanner(System.in);
     }
 
@@ -31,7 +32,8 @@ public class LibraryApp {
     public boolean execute() {
         printMessage("welcome");
         boolean running = true;
-        switch (ConsoleInputValidation.inputNumber(scanner)) {
+        int decision = ConsoleInputValidation.inputNumber(scanner);
+        switch (decision) {
             case 1 -> listBookStore();
             case 2 -> addBookToStore();
             case 3 -> findBookById();
@@ -43,29 +45,26 @@ public class LibraryApp {
 
     private void findBookById() {
         printMessage("findById");
-        BookConsolePrinter bookConsolePrinter;
-        for (int i = 0; i < bookStore.getBookStoreSize(); i++) {
-            bookConsolePrinter = new BookConsolePrinter(bookStore.findById(i));
-            bookConsolePrinter.shortPrintBook(i + 1);
-        }
-        BookFindDialog bookFindDialog = new BookFindDialog(scanner);
-        int id = bookFindDialog.getBookId();
-        bookConsolePrinter = new BookConsolePrinter(bookStore.findById(id - 1));
-        bookConsolePrinter.printBook();
+        listBookTitles();
+        int id = BookFindDialog.getBookId(scanner);
+        BookConsolePrinter.printBook(bookService.findById(id - 1));
     }
 
     private void addBookToStore() {
         printMessage("addBook");
-        BookAddDialog bookAddDialog = new BookAddDialog(scanner);
-        bookStore.add(bookAddDialog.createBook());
+        bookService.add(BookAddDialog.createBookDialog(scanner));
     }
 
     public void listBookStore() {
         printMessage("showLibrary");
-        BookConsolePrinter bookConsolePrinter;
-        for (int i = 0; i < bookStore.getBookStoreSize(); i++) {
-            bookConsolePrinter = new BookConsolePrinter(bookStore.findById(i));
-            bookConsolePrinter.printBook();
+        for (int i = 0; i < bookService.getBookStoreSize(); i++) {
+            BookConsolePrinter.printBook(bookService.findById(i));
+        }
+    }
+
+    private void listBookTitles() {
+        for (int i = 0; i < bookService.getBookStoreSize(); i++) {
+            BookConsolePrinter.printBookTitle(bookService.findById(i), i + 1);
         }
     }
 }

@@ -1,14 +1,14 @@
-package works.buddy.examples.library.controller;
+package works.buddy.examples.library.service;
 
 import works.buddy.examples.library.model.Book;
 
 import java.util.Collection;
 
-public class BookStore {
+public class BookService {
 
-    private Collection<Book> books;
+    private final Collection<Book> books;
 
-    public BookStore(Collection<Book> books) {
+    public BookService(Collection<Book> books) {
         this.books = books;
     }
 
