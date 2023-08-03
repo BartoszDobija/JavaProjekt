@@ -30,7 +30,6 @@ public class LibraryApp {
 
     public boolean menu() {
         boolean running = true;
-
         switch (userDialog.menuDialog()) {
             case 1 -> listBooks();
             case 2 -> findBook();
