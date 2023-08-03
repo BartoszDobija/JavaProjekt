@@ -1,6 +1,7 @@
 package works.buddy.library.data;
 
-import works.buddy.examples.library.model.Book;
+
+import works.buddy.library.model.Book;
 
 import java.util.ArrayList;
 import java.util.Collection;
