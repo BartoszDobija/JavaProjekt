@@ -13,8 +13,7 @@ public class Problem {
 
     private Collection<Solution> solutions;
 
-    public Problem(Integer id, String title, String description) {
-        this.id = id;
+    public Problem(String title, String description) {
         this.title = title;
         this.description = description;
     }

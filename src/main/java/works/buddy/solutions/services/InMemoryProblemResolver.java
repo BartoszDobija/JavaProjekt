@@ -1,42 +1,40 @@
 package works.buddy.solutions.services;
 
+import works.buddy.solutions.dao.ProblemDAO;
 import works.buddy.solutions.model.Problem;
 import works.buddy.solutions.model.Solution;
 
 import java.util.Collection;
-import java.util.Map;
 
+/**
+ * Taka klasa zawierala by logikę biznesową, bo w DAO klasach nie robimy żadnej logiki tylko stricte pobranie/zapis do bazy
+*/
 public class InMemoryProblemResolver implements ProblemResolver {
 
-    private Map<Integer, Problem> database;
+    private ProblemDAO problemDAO;
 
-    public InMemoryProblemResolver(Map<Integer, Problem> database) {
-        this.database = database;
+    public InMemoryProblemResolver(ProblemDAO problemDAO) {
+        this.problemDAO = problemDAO;
     }
 
     @Override
     public Problem reportProblem(String title, String description) {
-        Integer id = getNextId();
-        Problem problem = new Problem(id, title, description);
-        database.put(id, problem);
+        Problem problem = new Problem(title, description);
+        problemDAO.save(problem);
         return problem;
-    }
-
-    private Integer getNextId() {
-        return database.size() + 1;
     }
 
     @Override
     public void addSolution(Integer problemId, String solutionTitle, String solutionDescription) {
-        findProblemById(problemId).addSolution(solutionTitle, solutionDescription);
-    }
-
-    private Problem findProblemById(Integer problemId) {
-        return database.get(problemId);
+        getProblem(problemId).addSolution(solutionTitle, solutionDescription);
     }
 
     @Override
     public Collection<Solution> getSolutions(Integer problemId) {
-        return database.get(problemId).getSolutions();
+        return getProblem(problemId).getSolutions();
+    }
+
+    private Problem getProblem(Integer problemId) {
+        return problemDAO.findById(problemId);
     }
 }

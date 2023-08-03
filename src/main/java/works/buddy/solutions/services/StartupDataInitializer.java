@@ -23,7 +23,8 @@ public class StartupDataInitializer {
                 validateSolutionIsAfterProblem(lastProblem, line);
                 lastProblem.addSolution(parts[0], parts[1]);
             } else {
-                lastProblem = new Problem(database.size() + 1, parts[0], parts[1]);
+                lastProblem = new Problem(parts[0], parts[1]);
+                lastProblem.setId(database.size() + 1);
                 database.put(lastProblem.getId(), lastProblem);
             }
         }
