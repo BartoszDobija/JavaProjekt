@@ -4,6 +4,8 @@ import works.buddy.examples.library.model.Book;
 
 import java.util.Scanner;
 
+import static works.buddy.examples.library.utilities.ConsoleInputValidation.inputNumber;
+
 public class BookAddDialog {
 
     private Scanner scanner;
@@ -22,7 +24,7 @@ public class BookAddDialog {
         System.out.println("Book genre:");
         book.setGenre(scanner.nextLine());
         System.out.println("Release date:");
-        book.setReleaseDate(scanner.nextInt());
+        book.setReleaseDate(inputNumber(scanner));
         return book;
     }
 
