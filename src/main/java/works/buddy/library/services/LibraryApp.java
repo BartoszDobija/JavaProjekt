@@ -5,18 +5,18 @@ import works.buddy.library.model.Book;
 
 public class LibraryApp {
 
-    private final BookDAO bookDao;
+    private final BookDAO bookDAO;
 
-    private final UI UI;
+    private final UI ui;
 
-    public LibraryApp(BookDAO bookDao, UI UI) {
-        this.bookDao = bookDao;
-        this.UI = UI;
+    public LibraryApp(BookDAO bookDAO, UI ui) {
+        this.bookDAO = bookDAO;
+        this.ui = ui;
     }
 
     public void run() {
         boolean running = true;
-        UI.displayAlert("appIntro");
+        ui.displayAlert("appIntro");
         while (running) {
             running = menu();
         }
@@ -25,7 +25,7 @@ public class LibraryApp {
     public boolean menu() {
         boolean running = true;
         boolean success = true;
-        switch (UI.getSelectedAction()) {
+        switch (ui.getSelectedAction()) {
             case 1 -> listBooks();
             case 2 -> success = findBook();
             case 3 -> addBook();
@@ -35,55 +35,55 @@ public class LibraryApp {
                 running = false;
                 success = false;
             }
-            default -> UI.displayAlert("notANumberError");
+            default -> ui.displayAlert("notANumberError");
         }
         if (success) {
-            UI.displayAlert("operationSuccess");
+            ui.displayAlert("operationSuccess");
         }
         return running;
     }
 
     private boolean editBook() {
-        Book book = UI.editBook();
-        if (!bookDao.checkIfIdExists(book.getId())) {
-            UI.displayAlert("bookNotFoundError");
+        Book book = ui.editBook();
+        if (!bookDAO.exists(book.getId())) {
+            ui.displayAlert("bookNotFoundError");
             return false;
         }
-        bookDao.edit(book);
+        bookDAO.edit(book);
         return true;
 
     }
 
     private boolean deleteBook() {
-        int id = UI.getBookIdForDeletion();
-        if (!bookDao.checkIfIdExists(id)) {
-            UI.displayAlert("bookNotFoundError");
+        int id = ui.getBookIdForDeletion();
+        if (!bookDAO.exists(id)) {
+            ui.displayAlert("bookNotFoundError");
             return false;
         }
-        bookDao.delete(bookDao.findById(id));
+        bookDAO.delete(bookDAO.findById(id));
         return true;
 
     }
 
     private boolean findBook() {
-        int id = UI.getBookId();
-        if (!bookDao.checkIfIdExists(id)) {
-            UI.displayAlert("bookNotFoundError");
+        int id = ui.getBookId();
+        if (!bookDAO.exists(id)) {
+            ui.displayAlert("bookNotFoundError");
             return false;
         }
-        UI.displayBook(bookDao.findById(id));
+        ui.displayBook(bookDAO.findById(id));
         return true;
 
     }
 
     private void addBook() {
-        Book book = UI.addBook();
-        bookDao.add(book);
+        Book book = ui.addBook();
+        bookDAO.add(book);
     }
 
     public void listBooks() {
-        for (Book book : bookDao.getAll()) {
-            UI.displayBookTitle(book);
+        for (Book book : bookDAO.getAll()) {
+            ui.displayBookTitle(book);
         }
     }
 

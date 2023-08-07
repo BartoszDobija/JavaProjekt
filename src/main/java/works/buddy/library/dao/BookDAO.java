@@ -12,7 +12,7 @@ public interface BookDAO {
 
     Book findById(Integer id);
 
-    boolean checkIfIdDoesntExists(Integer id);
+    boolean exists(Integer id);
 
     void delete(Book book);
 
