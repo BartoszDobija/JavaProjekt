@@ -21,6 +21,7 @@ public class LibraryApp {
 
     public void run() {
         boolean running = true;
+        userDialog.acceptDialog("appIntro");
         while (running) {
             running = menu();
         }
@@ -35,7 +36,7 @@ public class LibraryApp {
             case 4 -> editBook();
             case 5 -> deleteBook();
             case 6 -> running = false;
-            default -> userDialog.errorDialog("notANumberError");
+            default -> userDialog.acceptDialog("notANumberError");
         }
         return running;
     }
@@ -43,7 +44,7 @@ public class LibraryApp {
     private void editBook() {
         Book book = userDialog.editBookDialog();
         if (!bookDao.checkIfIdExists(book.getId())) {
-            userDialog.errorDialog("bookNotFoundError");
+            userDialog.acceptDialog("bookNotFoundError");
             return;
         }
         bookDao.edit(book);
@@ -52,7 +53,7 @@ public class LibraryApp {
     private void deleteBook() {
         int id = userDialog.removeBookDialog();
         if (!bookDao.checkIfIdExists(id)) {
-            userDialog.errorDialog("bookNotFoundError");
+            userDialog.acceptDialog("bookNotFoundError");
             return;
         }
         bookDao.delete(bookDao.findById(id));
@@ -61,7 +62,7 @@ public class LibraryApp {
     private void findBook() {
         int id = userDialog.findBookDialog();
         if (!bookDao.checkIfIdExists(id)) {
-            userDialog.errorDialog("bookNotFoundError");
+            userDialog.acceptDialog("bookNotFoundError");
             return;
         }
         displayBook.details(bookDao.findById(id));

@@ -72,13 +72,14 @@ public class ConsoleUserDialog implements UserDialog {
 
     @Override
     public int menuDialog() {
-        System.out.println(getMessage("menuIntro"));
+        System.out.println(getMessage("menuList"));
         return inputNumber();
     }
 
     @Override
-    public void errorDialog(String key) {
+    public void acceptDialog(String key) {
         System.out.println(getMessage(key));
+        System.out.println(getMessage("continue"));
         scanner.nextLine();
     }
 }
