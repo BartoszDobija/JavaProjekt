@@ -33,11 +33,6 @@ public class InMemoryBookDAO implements BookDAO {
     }
 
     @Override
-    public boolean exists(Integer id) {
-        return books.stream().anyMatch(b -> b.getId().equals(id));
-    }
-
-    @Override
     public void delete(Integer id) throws NotFoundException {
         books.remove(find(id));
     }
