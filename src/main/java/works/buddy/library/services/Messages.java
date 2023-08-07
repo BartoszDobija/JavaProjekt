@@ -8,8 +8,8 @@ public class Messages {
 
     private static Properties messages;
 
-    public static void init() {
-        messages = getProperties("messages.properties");
+    public static void init(String fileName) {
+        messages = getProperties(fileName);
     }
 
     public static String getMessage(String key) {
