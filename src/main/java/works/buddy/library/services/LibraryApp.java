@@ -65,7 +65,7 @@ public class LibraryApp {
     }
 
     private Book getBook(Integer bookId) throws NotFoundException {
-        return bookDAO.findById(bookId);
+        return bookDAO.find(bookId);
     }
 
     private boolean bookExists(Integer bookId) {
@@ -77,7 +77,7 @@ public class LibraryApp {
     }
 
     private void addBook() {
-        bookDAO.add(ui.addBook());
+        bookDAO.save(ui.addBook());
     }
 
     public void listBooks() {

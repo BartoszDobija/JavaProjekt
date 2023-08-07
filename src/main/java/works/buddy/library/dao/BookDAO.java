@@ -8,9 +8,9 @@ public interface BookDAO {
 
     Collection<Book> findAll();
 
-    void add(Book book);
+    void save(Book book);
 
-    Book findById(Integer id) throws NotFoundException;
+    Book find(Integer id) throws NotFoundException;
 
     boolean exists(Integer id);
 

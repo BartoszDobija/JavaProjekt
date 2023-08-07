@@ -22,13 +22,13 @@ public class InMemoryBookDAO implements BookDAO {
     }
 
     @Override
-    public void add(Book book) {
+    public void save(Book book) {
         book.setId(getNextId());
         books.add(book);
     }
 
     @Override
-    public Book findById(Integer id) throws NotFoundException {
+    public Book find(Integer id) throws NotFoundException {
         return books.stream().filter(b -> b.getId().equals(id)).findFirst().orElseThrow(NotFoundException::new);
     }
 
