@@ -31,7 +31,10 @@ public class LibraryApp {
             case 3 -> addBook();
             case 4 -> success = editBook();
             case 5 -> success = deleteBook();
-            case 6 -> {running = false; success=false;}
+            case 6 -> {
+                running = false;
+                success = false;
+            }
             default -> display.alert("notANumberError");
         }
         if (success) {

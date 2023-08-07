@@ -6,24 +6,14 @@ import java.util.Scanner;
 
 import static works.buddy.library.services.Messages.getMessage;
 
-public class ConsoleDisplay implements Display{
+public class ConsoleDisplay implements Display {
+
     private final Scanner scanner;
 
     public ConsoleDisplay() {
         scanner = new Scanner(System.in);
     }
 
-    private int inputNumber() {
-        while (true) {
-            if (scanner.hasNextInt()) {
-                int number = scanner.nextInt();
-                scanner.nextLine();
-                return number;
-            }
-            System.out.println(getMessage("notANumberError"));
-            scanner.nextLine();
-        }
-    }
     @Override
     public Book addBook() {
         System.out.println(getMessage("addBookIntro"));
@@ -35,20 +25,20 @@ public class ConsoleDisplay implements Display{
         System.out.println(getMessage("bookDataGenre"));
         book.setGenre(scanner.nextLine());
         System.out.println(getMessage("bookDataRelease"));
-        book.setReleaseYear(inputNumber());
+        book.setReleaseYear(getInputNumber());
         return book;
     }
 
     @Override
     public int findBook() {
         System.out.println(getMessage("findBookIntro"));
-        return inputNumber();
+        return getInputNumber();
     }
 
     @Override
     public int removeBook() {
         System.out.println(getMessage("removeBookIntro"));
-        return inputNumber();
+        return getInputNumber();
     }
 
     @Override
@@ -56,7 +46,7 @@ public class ConsoleDisplay implements Display{
         System.out.println(getMessage("editBookIntro"));
         Book book = new Book();
         System.out.println(getMessage("bookDataId"));
-        book.setId(inputNumber());
+        book.setId(getInputNumber());
         System.out.println(getMessage("bookDataAuthor"));
         book.setAuthor(scanner.nextLine());
         System.out.println(getMessage("bookDataTitle"));
@@ -64,14 +54,26 @@ public class ConsoleDisplay implements Display{
         System.out.println(getMessage("bookDataGenre"));
         book.setGenre(scanner.nextLine());
         System.out.println(getMessage("bookDataRelease"));
-        book.setReleaseYear(inputNumber());
+        book.setReleaseYear(getInputNumber());
         return book;
     }
 
     @Override
     public int menu() {
         System.out.println(getMessage("menuList"));
-        return inputNumber();
+        return getInputNumber();
+    }
+
+    private int getInputNumber() {
+        while (true) {
+            if (scanner.hasNextInt()) {
+                int number = scanner.nextInt();
+                scanner.nextLine();
+                return number;
+            }
+            System.out.println(getMessage("notANumberError"));
+            scanner.nextLine();
+        }
     }
 
     @Override
