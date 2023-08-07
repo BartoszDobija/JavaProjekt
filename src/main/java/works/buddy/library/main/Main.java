@@ -11,13 +11,14 @@ import works.buddy.library.services.Messages;
 import works.buddy.library.utils.CsvReader;
 
 import java.io.File;
+import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
         Messages.init();
         InitialData initialData = new CsvInitialData(new CsvReader(new File("src/main/resources/initialData.csv")));
-        Display display = new ConsoleDisplay();
+        Display display = new ConsoleDisplay(new Scanner(System.in));
         BookDAO bookDAO = new InMemoryBookDAO(initialData.getBooks());
         LibraryApp libraryApp = new LibraryApp(bookDAO, display);
         libraryApp.run();

@@ -10,8 +10,8 @@ public class ConsoleDisplay implements Display {
 
     private final Scanner scanner;
 
-    public ConsoleDisplay() {
-        scanner = new Scanner(System.in);
+    public ConsoleDisplay(Scanner scanner) {
+        this.scanner = scanner;
     }
 
     @Override
