@@ -38,17 +38,13 @@ public class InMemoryBookDAO implements BookDAO {
     }
 
     @Override
-    public void delete(Book book) {
-        books.remove(book);
+    public void delete(Integer id) throws NotFoundException {
+        books.remove(find(id));
     }
 
     @Override
-    public void update(Book book) {
-        books.stream().filter(b -> b.getId().equals(book.getId())).findAny().ifPresent(b -> {
-            b.setAuthor(book.getAuthor());
-            b.setTitle(book.getTitle());
-            b.setGenre(book.getGenre());
-            b.setReleaseYear(book.getReleaseYear());
-        });
+    public void update(Book book) throws NotFoundException {
+        delete(book.getId());
+        books.add(book);
     }
 }
