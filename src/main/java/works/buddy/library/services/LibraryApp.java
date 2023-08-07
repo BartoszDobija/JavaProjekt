@@ -24,55 +24,45 @@ public class LibraryApp {
 
     public boolean menu() {
         boolean running = true;
-        boolean success = true;
         switch (ui.getSelectedAction()) {
             case 1 -> listBooks();
-            case 2 -> success = findBook();
+            case 2 -> findBook();
             case 3 -> addBook();
-            case 4 -> success = editBook();
-            case 5 -> success = deleteBook();
-            case 6 -> {
-                running = false;
-                success = false;
-            }
+            case 4 -> editBook();
+            case 5 -> deleteBook();
+            case 6 -> running = false;
             default -> ui.displayAlert("notANumberError");
-        }
-        if (success) {
-            ui.displayAlert("operationSuccess");
         }
         return running;
     }
 
-    private boolean editBook() {
+    private void editBook() {
         Book book = ui.editBook();
-        if (!bookDAO.exists(book.getId())) {
+        if (bookDAO.exists(book.getId())) {
             ui.displayAlert("bookNotFoundError");
-            return false;
+            return;
         }
         bookDAO.edit(book);
-        return true;
 
     }
 
-    private boolean deleteBook() {
+    private void deleteBook() {
         int id = ui.getBookIdForDeletion();
-        if (!bookDAO.exists(id)) {
+        if (bookDAO.exists(id)) {
             ui.displayAlert("bookNotFoundError");
-            return false;
+            return;
         }
         bookDAO.delete(bookDAO.findById(id));
-        return true;
 
     }
 
-    private boolean findBook() {
+    private void findBook() {
         int id = ui.getBookId();
-        if (!bookDAO.exists(id)) {
+        if (bookDAO.exists(id)) {
             ui.displayAlert("bookNotFoundError");
-            return false;
+            return;
         }
         ui.displayBook(bookDAO.findById(id));
-        return true;
 
     }
 
