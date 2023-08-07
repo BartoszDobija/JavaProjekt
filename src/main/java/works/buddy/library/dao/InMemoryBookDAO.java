@@ -50,9 +50,4 @@ public class InMemoryBookDAO implements BookDAO {
             b.setReleaseYear(book.getReleaseYear());
         });
     }
-
-    @Override
-    public Integer getBooksCount() {
-        return books.size();
-    }
 }

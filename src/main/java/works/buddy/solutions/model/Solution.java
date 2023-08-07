@@ -4,7 +4,7 @@ public class Solution {
 
     private Integer id;
 
-    private String title;
+    private final String title;
 
     private String description;
 

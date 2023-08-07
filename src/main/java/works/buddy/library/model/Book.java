@@ -12,8 +12,6 @@ public class Book {
 
     private Integer releaseYear;
 
-    private String content = "Lorem Ipsum itd itp tutaj tresc ksiazki";
-
     public Book() {
 
     }
@@ -66,11 +64,4 @@ public class Book {
         this.releaseYear = releaseYear;
     }
 
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
 }

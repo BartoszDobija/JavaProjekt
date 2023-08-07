@@ -15,6 +15,4 @@ public interface BookDAO {
     void delete(Book book);
 
     void edit(Book book);
-
-    Integer getBooksCount();
 }

@@ -11,7 +11,7 @@ import java.util.Collection;
 */
 public class InMemoryProblemResolver implements ProblemResolver {
 
-    private ProblemDAO problemDAO;
+    private final ProblemDAO problemDAO;
 
     public InMemoryProblemResolver(ProblemDAO problemDAO) {
         this.problemDAO = problemDAO;

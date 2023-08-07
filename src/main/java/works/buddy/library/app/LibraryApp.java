@@ -29,43 +29,53 @@ public class LibraryApp {
 
     public boolean menu() {
         boolean running = true;
+        boolean success = true;
         switch (userDialog.menuDialog()) {
             case 1 -> listBooks();
-            case 2 -> findBook();
+            case 2 -> success = findBook();
             case 3 -> addBook();
-            case 4 -> editBook();
-            case 5 -> deleteBook();
-            case 6 -> running = false;
+            case 4 -> success = editBook();
+            case 5 -> success = deleteBook();
+            case 6 -> {running = false; success=false;}
             default -> userDialog.acceptDialog("notANumberError");
+        }
+        if (success) {
+            userDialog.acceptDialog("operationSuccess");
         }
         return running;
     }
 
-    private void editBook() {
+    private boolean editBook() {
         Book book = userDialog.editBookDialog();
         if (!bookDao.checkIfIdExists(book.getId())) {
             userDialog.acceptDialog("bookNotFoundError");
-            return;
+            return false;
         }
         bookDao.edit(book);
+        return true;
+
     }
 
-    private void deleteBook() {
+    private boolean deleteBook() {
         int id = userDialog.removeBookDialog();
         if (!bookDao.checkIfIdExists(id)) {
             userDialog.acceptDialog("bookNotFoundError");
-            return;
+            return false;
         }
         bookDao.delete(bookDao.findById(id));
+        return true;
+
     }
 
-    private void findBook() {
+    private boolean findBook() {
         int id = userDialog.findBookDialog();
         if (!bookDao.checkIfIdExists(id)) {
             userDialog.acceptDialog("bookNotFoundError");
-            return;
+            return false;
         }
         displayBook.details(bookDao.findById(id));
+        return true;
+
     }
 
     private void addBook() {

@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class InMemoryProblemDAO implements ProblemDAO {
 
-    private Map<Integer, Problem> database;
+    private final Map<Integer, Problem> database;
 
     public InMemoryProblemDAO(Map<Integer, Problem> database) {
         this.database = database;
