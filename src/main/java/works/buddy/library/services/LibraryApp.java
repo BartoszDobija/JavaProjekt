@@ -45,7 +45,7 @@ public class LibraryApp {
 
     private boolean editBook() {
         Book book = display.editBook();
-        if (!bookDao.checkIfIdExists(book.getId())) {
+        if (bookDao.checkIfIdDoesntExists(book.getId())) {
             display.alert("bookNotFoundError");
             return false;
         }
@@ -56,7 +56,7 @@ public class LibraryApp {
 
     private boolean deleteBook() {
         int id = display.removeBook();
-        if (!bookDao.checkIfIdExists(id)) {
+        if (bookDao.checkIfIdDoesntExists(id)) {
             display.alert("bookNotFoundError");
             return false;
         }
@@ -67,7 +67,7 @@ public class LibraryApp {
 
     private boolean findBook() {
         int id = display.findBook();
-        if (!bookDao.checkIfIdExists(id)) {
+        if (bookDao.checkIfIdDoesntExists(id)) {
             display.alert("bookNotFoundError");
             return false;
         }
