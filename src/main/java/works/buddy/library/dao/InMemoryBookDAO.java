@@ -43,7 +43,7 @@ public class InMemoryBookDAO implements BookDAO {
     }
 
     @Override
-    public void edit(Book book) {
+    public void update(Book book) {
         books.stream().filter(b -> b.getId().equals(book.getId())).findAny().ifPresent(b -> {
             b.setAuthor(book.getAuthor());
             b.setTitle(book.getTitle());

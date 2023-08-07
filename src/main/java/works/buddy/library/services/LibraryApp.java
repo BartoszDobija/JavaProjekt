@@ -38,32 +38,31 @@ public class LibraryApp {
 
     private void editBook() {
         Book book = ui.editBook();
-        if (!bookDAO.exists(book.getId())) {
-            ui.displayAlert("bookNotFoundError");
-            return;
+        if (bookDAO.exists(book.getId())) {
+            bookDAO.update(book);
+        } else {
+            displayBookNotFound();
         }
-        bookDAO.edit(book);
-
     }
 
     private void deleteBook() {
-        int id = ui.getBookIdForDeletion();
-        if (!bookDAO.exists(id)) {
-            ui.displayAlert("bookNotFoundError");
-            return;
+        if (bookDAO.exists(ui.getBookIdForDeletion())) {
+            bookDAO.delete(bookDAO.findById(ui.getBookIdForDeletion()));
+        } else {
+            displayBookNotFound();
         }
-        bookDAO.delete(bookDAO.findById(id));
-
     }
 
     private void findBook() {
-        int id = ui.getBookId();
-        if (!bookDAO.exists(id)) {
-            ui.displayAlert("bookNotFoundError");
-            return;
+        if (bookDAO.exists(ui.getBookId())) {
+            ui.displayBook(bookDAO.findById(ui.getBookId()));
+        } else {
+            displayBookNotFound();
         }
-        ui.displayBook(bookDAO.findById(id));
+    }
 
+    private void displayBookNotFound() {
+        ui.displayAlert("bookNotFoundError");
     }
 
     private void addBook() {
@@ -72,9 +71,6 @@ public class LibraryApp {
     }
 
     public void listBooks() {
-        for (Book book : bookDAO.getAll()) {
-            ui.displayBookTitle(book);
-        }
+        bookDAO.getAll().forEach(ui::displayBookTitle);
     }
-
 }

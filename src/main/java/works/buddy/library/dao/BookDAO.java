@@ -16,5 +16,5 @@ public interface BookDAO {
 
     void delete(Book book);
 
-    void edit(Book book);
+    void update(Book book);
 }
