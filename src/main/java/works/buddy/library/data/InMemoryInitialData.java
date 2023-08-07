@@ -6,7 +6,8 @@ import works.buddy.library.model.Book;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class MockupData {
+public class InMemoryInitialData implements InitialData {
+    @Override
     public Collection<Book> getBooks() {
         ArrayList<Book> books = new ArrayList<>();
         books.add(new Book(0, "Anna Karenina", "Leo Tolstoy", "Fiction", 1877));
