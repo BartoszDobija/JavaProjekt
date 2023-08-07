@@ -1,4 +1,4 @@
-package works.buddy.library.app;
+package works.buddy.library.services;
 
 import works.buddy.library.dao.BookDAO;
 import works.buddy.library.model.Book;

@@ -4,7 +4,7 @@ import works.buddy.library.model.Book;
 
 import java.util.Scanner;
 
-import static works.buddy.library.service.Messages.getMessage;
+import static works.buddy.library.services.Messages.getMessage;
 
 public class ConsoleUserDialog implements UserDialog {
 

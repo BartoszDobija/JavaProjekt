@@ -1,4 +1,4 @@
-package works.buddy.library.service;
+package works.buddy.library.services;
 
 import java.util.Properties;
 

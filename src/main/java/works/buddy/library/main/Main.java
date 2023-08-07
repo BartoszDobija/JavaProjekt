@@ -1,10 +1,10 @@
 package works.buddy.library.main;
 
-import works.buddy.library.app.LibraryApp;
+import works.buddy.library.services.LibraryApp;
 import works.buddy.library.dao.BookDAO;
 import works.buddy.library.dao.InMemoryBookDAO;
 import works.buddy.library.data.MockupData;
-import works.buddy.library.service.Messages;
+import works.buddy.library.services.Messages;
 import works.buddy.library.view.ConsoleDisplayBook;
 import works.buddy.library.view.ConsoleUserDialog;
 import works.buddy.library.view.DisplayBook;
