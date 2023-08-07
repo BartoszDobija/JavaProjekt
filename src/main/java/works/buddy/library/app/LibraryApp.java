@@ -5,15 +5,13 @@ import works.buddy.library.model.Book;
 import works.buddy.library.view.DisplayBook;
 import works.buddy.library.view.UserDialog;
 
-import static works.buddy.examples.library.view.MessageConsolePrinter.printMessage;
-
 public class LibraryApp {
 
-    private BookDAO bookDao;
+    private final BookDAO bookDao;
 
-    private DisplayBook displayBook;
+    private final DisplayBook displayBook;
 
-    private UserDialog userDialog;
+    private final UserDialog userDialog;
 
     public LibraryApp(BookDAO bookDao, DisplayBook displayBook, UserDialog userDialog) {
         this.bookDao = bookDao;
