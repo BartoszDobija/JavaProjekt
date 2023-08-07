@@ -48,12 +48,7 @@ public class LibraryApp {
     }
 
     private void editBook() {
-        Book book = ui.editBook();
-        if (bookExists(book.getId())) {
-            bookDAO.update(book);
-        } else {
-            displayBookNotFound();
-        }
+        bookDAO.update(ui.getBookForUpdate());
     }
 
     private void deleteBook() throws NotFoundException {
@@ -66,10 +61,6 @@ public class LibraryApp {
 
     private Book getBook(Integer bookId) throws NotFoundException {
         return bookDAO.find(bookId);
-    }
-
-    private boolean bookExists(Integer bookId) {
-        return bookDAO.exists(bookId);
     }
 
     private void displayBookNotFound() {

@@ -25,11 +25,11 @@ public class ConsoleUI implements UI {
         System.out.println(getMessage("addBookIntro"));
         Book book = new Book();
         System.out.println(getMessage("bookDataAuthor"));
-        book.setAuthor(scanner.nextLine());
+        book.setAuthor(readLine());
         System.out.println(getMessage("bookDataTitle"));
-        book.setTitle(scanner.nextLine());
+        book.setTitle(readLine());
         System.out.println(getMessage("bookDataGenre"));
-        book.setGenre(scanner.nextLine());
+        book.setGenre(readLine());
         System.out.println(getMessage("bookDataRelease"));
         book.setReleaseYear(getInputNumber());
         return book;
@@ -42,17 +42,17 @@ public class ConsoleUI implements UI {
     }
 
     @Override
-    public Book editBook() {
+    public Book getBookForUpdate() {
         System.out.println(getMessage("editBookIntro"));
         Book book = new Book();
         System.out.println(getMessage("bookDataId"));
         book.setId(getInputNumber());
         System.out.println(getMessage("bookDataAuthor"));
-        book.setAuthor(scanner.nextLine());
+        book.setAuthor(readLine());
         System.out.println(getMessage("bookDataTitle"));
-        book.setTitle(scanner.nextLine());
+        book.setTitle(readLine());
         System.out.println(getMessage("bookDataGenre"));
-        book.setGenre(scanner.nextLine());
+        book.setGenre(readLine());
         System.out.println(getMessage("bookDataRelease"));
         book.setReleaseYear(getInputNumber());
         return book;
@@ -62,11 +62,11 @@ public class ConsoleUI implements UI {
         while (true) {
             if (scanner.hasNextInt()) {
                 int number = scanner.nextInt();
-                scanner.nextLine();
+                readLine();
                 return number;
             }
             System.out.println(getMessage("notANumberError"));
-            scanner.nextLine();
+            readLine();
         }
     }
 
@@ -74,7 +74,11 @@ public class ConsoleUI implements UI {
     public void displayAlert(String key) {
         System.out.println("\n" + getMessage(key));
         System.out.println(getMessage("continue"));
-        scanner.nextLine();
+        readLine();
+    }
+
+    private String readLine() {
+        return scanner.nextLine();
     }
 
     @Override

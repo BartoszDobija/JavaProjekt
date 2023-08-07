@@ -10,7 +10,7 @@ public interface UI {
 
     Integer getBookId();
 
-    Book editBook();
+    Book getBookForUpdate();
 
     void displayAlert(String key);
 
