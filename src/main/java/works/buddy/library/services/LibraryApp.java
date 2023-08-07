@@ -7,16 +7,16 @@ public class LibraryApp {
 
     private final BookDAO bookDao;
 
-    private final Display display;
+    private final UI UI;
 
-    public LibraryApp(BookDAO bookDao, Display display) {
+    public LibraryApp(BookDAO bookDao, UI UI) {
         this.bookDao = bookDao;
-        this.display = display;
+        this.UI = UI;
     }
 
     public void run() {
         boolean running = true;
-        display.alert("appIntro");
+        UI.displayAlert("appIntro");
         while (running) {
             running = menu();
         }
@@ -25,7 +25,7 @@ public class LibraryApp {
     public boolean menu() {
         boolean running = true;
         boolean success = true;
-        switch (display.menu()) {
+        switch (UI.getSelectedAction()) {
             case 1 -> listBooks();
             case 2 -> success = findBook();
             case 3 -> addBook();
@@ -35,18 +35,18 @@ public class LibraryApp {
                 running = false;
                 success = false;
             }
-            default -> display.alert("notANumberError");
+            default -> UI.displayAlert("notANumberError");
         }
         if (success) {
-            display.alert("operationSuccess");
+            UI.displayAlert("operationSuccess");
         }
         return running;
     }
 
     private boolean editBook() {
-        Book book = display.editBook();
+        Book book = UI.editBook();
         if (!bookDao.checkIfIdExists(book.getId())) {
-            display.alert("bookNotFoundError");
+            UI.displayAlert("bookNotFoundError");
             return false;
         }
         bookDao.edit(book);
@@ -55,9 +55,9 @@ public class LibraryApp {
     }
 
     private boolean deleteBook() {
-        int id = display.removeBook();
+        int id = UI.getBookIdForDeletion();
         if (!bookDao.checkIfIdExists(id)) {
-            display.alert("bookNotFoundError");
+            UI.displayAlert("bookNotFoundError");
             return false;
         }
         bookDao.delete(bookDao.findById(id));
@@ -66,24 +66,24 @@ public class LibraryApp {
     }
 
     private boolean findBook() {
-        int id = display.findBook();
+        int id = UI.getBookId();
         if (!bookDao.checkIfIdExists(id)) {
-            display.alert("bookNotFoundError");
+            UI.displayAlert("bookNotFoundError");
             return false;
         }
-        display.bookDetails(bookDao.findById(id));
+        UI.displayBook(bookDao.findById(id));
         return true;
 
     }
 
     private void addBook() {
-        Book book = display.addBook();
+        Book book = UI.addBook();
         bookDao.add(book);
     }
 
     public void listBooks() {
         for (Book book : bookDao.getAll()) {
-            display.bookTitle(book);
+            UI.displayBookTitle(book);
         }
     }
 

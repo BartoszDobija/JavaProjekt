@@ -6,12 +6,18 @@ import java.util.Scanner;
 
 import static works.buddy.library.services.Messages.getMessage;
 
-public class ConsoleDisplay implements Display {
+public class ConsoleUI implements UI {
 
     private final Scanner scanner;
 
-    public ConsoleDisplay() {
+    public ConsoleUI() {
         scanner = new Scanner(System.in);
+    }
+
+    @Override
+    public Integer getSelectedAction() {
+        System.out.println(getMessage("menuList"));
+        return getInputNumber();
     }
 
     @Override
@@ -30,13 +36,13 @@ public class ConsoleDisplay implements Display {
     }
 
     @Override
-    public int findBook() {
+    public Integer getBookId() {
         System.out.println(getMessage("findBookIntro"));
         return getInputNumber();
     }
 
     @Override
-    public int removeBook() {
+    public Integer getBookIdForDeletion() {
         System.out.println(getMessage("removeBookIntro"));
         return getInputNumber();
     }
@@ -58,13 +64,7 @@ public class ConsoleDisplay implements Display {
         return book;
     }
 
-    @Override
-    public int menu() {
-        System.out.println(getMessage("menuList"));
-        return getInputNumber();
-    }
-
-    private int getInputNumber() {
+    private Integer getInputNumber() {
         while (true) {
             if (scanner.hasNextInt()) {
                 int number = scanner.nextInt();
@@ -77,19 +77,19 @@ public class ConsoleDisplay implements Display {
     }
 
     @Override
-    public void alert(String key) {
+    public void displayAlert(String key) {
         System.out.println("\n" + getMessage(key));
         System.out.println(getMessage("continue"));
         scanner.nextLine();
     }
 
     @Override
-    public void bookDetails(Book book) {
+    public void displayBook(Book book) {
         System.out.println(book.getTitle() + " by " + book.getAuthor() + " [" + book.getReleaseYear() + "]");
     }
 
     @Override
-    public void bookTitle(Book book) {
+    public void displayBookTitle(Book book) {
         System.out.println(book.getTitle());
     }
 }
