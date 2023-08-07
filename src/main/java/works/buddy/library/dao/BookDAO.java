@@ -6,11 +6,11 @@ import java.util.Collection;
 
 public interface BookDAO {
 
-    Collection<Book> getAll();
+    Collection<Book> findAll();
 
     void add(Book book);
 
-    Book findById(Integer id);
+    Book findById(Integer id) throws NotFoundException;
 
     boolean exists(Integer id);
 

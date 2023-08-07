@@ -10,8 +10,6 @@ public interface UI {
 
     Integer getBookId();
 
-    Integer getBookIdForDeletion();
-
     Book editBook();
 
     void displayAlert(String key);

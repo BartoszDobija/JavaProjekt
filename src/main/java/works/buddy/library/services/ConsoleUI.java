@@ -37,13 +37,7 @@ public class ConsoleUI implements UI {
 
     @Override
     public Integer getBookId() {
-        System.out.println(getMessage("findBookIntro"));
-        return getInputNumber();
-    }
-
-    @Override
-    public Integer getBookIdForDeletion() {
-        System.out.println(getMessage("removeBookIntro"));
+        System.out.println(getMessage("bookDataId"));
         return getInputNumber();
     }
 

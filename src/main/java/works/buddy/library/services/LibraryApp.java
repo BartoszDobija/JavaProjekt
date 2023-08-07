@@ -1,6 +1,7 @@
 package works.buddy.library.services;
 
 import works.buddy.library.dao.BookDAO;
+import works.buddy.library.dao.NotFoundException;
 import works.buddy.library.model.Book;
 
 public class LibraryApp {
@@ -18,11 +19,21 @@ public class LibraryApp {
         boolean running = true;
         ui.displayAlert("appIntro");
         while (running) {
-            running = menu();
+            running = keepRunning();
         }
     }
 
-    public boolean menu() {
+    public boolean keepRunning() {
+        boolean running = true;
+        try {
+            running = handleAction();
+        } catch (NotFoundException e) {
+            displayBookNotFound();
+        }
+        return running;
+    }
+
+    private boolean handleAction() throws NotFoundException {
         boolean running = true;
         switch (ui.getSelectedAction()) {
             case 1 -> listBooks();
@@ -45,21 +56,16 @@ public class LibraryApp {
         }
     }
 
-    private void deleteBook() {
-        if (bookExists(ui.getBookIdForDeletion())) {
-            bookDAO.delete(bookDAO.findById(ui.getBookIdForDeletion()));
-        } else {
-            displayBookNotFound();
-        }
+    private void deleteBook() throws NotFoundException {
+        bookDAO.delete(getBook(ui.getBookId()));
     }
 
-    private void findBook() {
-        Integer bookId = ui.getBookId();
-        if (bookExists(bookId)) {
-            ui.displayBook(bookDAO.findById(bookId));
-        } else {
-            displayBookNotFound();
-        }
+    private void findBook() throws NotFoundException {
+        ui.displayBook(getBook(ui.getBookId()));
+    }
+
+    private Book getBook(Integer bookId) throws NotFoundException {
+        return bookDAO.findById(bookId);
     }
 
     private boolean bookExists(Integer bookId) {
@@ -76,6 +82,6 @@ public class LibraryApp {
     }
 
     public void listBooks() {
-        bookDAO.getAll().forEach(ui::displayBookTitle);
+        bookDAO.findAll().forEach(ui::displayBookTitle);
     }
 }

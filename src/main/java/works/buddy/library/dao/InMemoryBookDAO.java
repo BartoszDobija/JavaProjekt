@@ -17,7 +17,7 @@ public class InMemoryBookDAO implements BookDAO {
     }
 
     @Override
-    public Collection<Book> getAll() {
+    public Collection<Book> findAll() {
         return books;
     }
 
@@ -28,8 +28,8 @@ public class InMemoryBookDAO implements BookDAO {
     }
 
     @Override
-    public Book findById(Integer id) {
-        return books.stream().filter(b -> b.getId().equals(id)).findFirst().orElseThrow();
+    public Book findById(Integer id) throws NotFoundException {
+        return books.stream().filter(b -> b.getId().equals(id)).findFirst().orElseThrow(NotFoundException::new);
     }
 
     @Override
