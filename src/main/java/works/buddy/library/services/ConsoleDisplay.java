@@ -78,7 +78,7 @@ public class ConsoleDisplay implements Display {
 
     @Override
     public void alert(String key) {
-        System.out.println(getMessage(key));
+        System.out.println("\n" + getMessage(key));
         System.out.println(getMessage("continue"));
         scanner.nextLine();
     }
