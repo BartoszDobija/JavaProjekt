@@ -15,7 +15,6 @@ public class CsvInitialData implements InitialData {
 
     private static final char DEFAULT_SEPARATOR = ',';
 
-
     public CsvInitialData(File csvFile) {
         this.csvFile = csvFile;
     }
@@ -41,9 +40,9 @@ public class CsvInitialData implements InitialData {
             if (c == DEFAULT_SEPARATOR) {
                 result.add(stringBuilder.toString());
                 stringBuilder.setLength(0);
-                break;
+            } else {
+                stringBuilder.append(c);
             }
-            stringBuilder.append(c);
         }
         result.add(stringBuilder.toString());
         return result.toArray(String[]::new);
@@ -51,6 +50,15 @@ public class CsvInitialData implements InitialData {
 
     @Override
     public Collection<Book> getBooks() {
-        return null;
+        Collection<Book> result = new ArrayList<>();
+        try {
+            List<String[]> booksData = readFile();
+            for (String[] object : booksData) {
+                result.add(new Book(result.size(), object[0], object[1], object[2], Integer.parseInt(object[3])));
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return result;
     }
 }

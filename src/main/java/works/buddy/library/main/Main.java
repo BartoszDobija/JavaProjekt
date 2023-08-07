@@ -14,7 +14,7 @@ import java.io.File;
 public class Main {
 
     public static void main(String[] args) {
-        Messages.init();InitialData initialData = new CsvInitialData(new File("initialData.csv"));
+        Messages.init();InitialData initialData = new CsvInitialData(new File("src/main/resources/initialData.csv"));
         Display display = new ConsoleDisplay();
         BookDAO bookDAO = new InMemoryBookDAO(initialData.getBooks());
         LibraryApp libraryApp = new LibraryApp(bookDAO, display);
