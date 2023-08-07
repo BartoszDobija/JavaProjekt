@@ -1,5 +1,7 @@
 package works.buddy.library.model;
 
+import java.util.Objects;
+
 public class Book {
 
     private Integer id;
@@ -21,6 +23,23 @@ public class Book {
         this.author = author;
         this.genre = genre;
         this.releaseYear = releaseYear;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Book book = (Book) o;
+        return Objects.equals(getId(), book.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
     }
 
     public Integer getId() {
