@@ -84,6 +84,7 @@ public class ConsoleUI implements UI {
 
     @Override
     public void displayBookTitle(Book book) {
+        System.out.print(book.getId() + ". ");
         System.out.println(book.getTitle());
     }
 }
