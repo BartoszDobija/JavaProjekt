@@ -77,8 +77,7 @@ public class LibraryApp {
     }
 
     private void addBook() {
-        Book book = ui.addBook();
-        bookDAO.add(book);
+        bookDAO.add(ui.addBook());
     }
 
     public void listBooks() {
