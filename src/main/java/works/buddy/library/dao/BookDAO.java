@@ -14,7 +14,7 @@ public interface BookDAO {
 
     boolean exists(Integer id);
 
-    void delete(Book book);
+    void delete(Integer id) throws NotFoundException;
 
-    void update(Book book);
+    void update(Book book) throws NotFoundException;
 }
