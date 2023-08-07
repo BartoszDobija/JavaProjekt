@@ -1,4 +1,4 @@
 package works.buddy.library.dao;
 
-public class NotFoundException extends Exception {
+public class NotFoundException extends RuntimeException {
 }
