@@ -34,7 +34,7 @@ public class InMemoryBookDAO implements BookDAO {
 
     @Override
     public boolean exists(Integer id) {
-        return books.stream().noneMatch(b -> b.getId().equals(id));
+        return books.stream().anyMatch(b -> b.getId().equals(id));
     }
 
     @Override
