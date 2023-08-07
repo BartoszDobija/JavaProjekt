@@ -82,4 +82,8 @@ public class Book {
         this.releaseYear = releaseYear;
     }
 
+    @Override
+    public String toString() {
+        return String.format("%s by %s, %s originally published in [%s]", this.title, this.author, this.genre, this.releaseYear);
+    }
 }
