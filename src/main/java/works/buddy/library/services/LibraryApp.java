@@ -57,7 +57,7 @@ public class LibraryApp {
     }
 
     private void deleteBook() throws NotFoundException {
-        bookDAO.delete(getBook(ui.getBookId()));
+        bookDAO.delete(ui.getBookId());
     }
 
     private void findBook() throws NotFoundException {
