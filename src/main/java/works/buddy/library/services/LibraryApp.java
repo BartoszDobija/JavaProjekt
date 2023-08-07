@@ -2,26 +2,21 @@ package works.buddy.library.services;
 
 import works.buddy.library.dao.BookDAO;
 import works.buddy.library.model.Book;
-import works.buddy.library.view.DisplayBook;
-import works.buddy.library.view.UserDialog;
 
 public class LibraryApp {
 
     private final BookDAO bookDao;
 
-    private final DisplayBook displayBook;
+    private final Display display;
 
-    private final UserDialog userDialog;
-
-    public LibraryApp(BookDAO bookDao, DisplayBook displayBook, UserDialog userDialog) {
+    public LibraryApp(BookDAO bookDao, Display display) {
         this.bookDao = bookDao;
-        this.displayBook = displayBook;
-        this.userDialog = userDialog;
+        this.display = display;
     }
 
     public void run() {
         boolean running = true;
-        userDialog.acceptDialog("appIntro");
+        display.alert("appIntro");
         while (running) {
             running = menu();
         }
@@ -30,25 +25,25 @@ public class LibraryApp {
     public boolean menu() {
         boolean running = true;
         boolean success = true;
-        switch (userDialog.menuDialog()) {
+        switch (display.menu()) {
             case 1 -> listBooks();
             case 2 -> success = findBook();
             case 3 -> addBook();
             case 4 -> success = editBook();
             case 5 -> success = deleteBook();
             case 6 -> {running = false; success=false;}
-            default -> userDialog.acceptDialog("notANumberError");
+            default -> display.alert("notANumberError");
         }
         if (success) {
-            userDialog.acceptDialog("operationSuccess");
+            display.alert("operationSuccess");
         }
         return running;
     }
 
     private boolean editBook() {
-        Book book = userDialog.editBookDialog();
+        Book book = display.editBook();
         if (!bookDao.checkIfIdExists(book.getId())) {
-            userDialog.acceptDialog("bookNotFoundError");
+            display.alert("bookNotFoundError");
             return false;
         }
         bookDao.edit(book);
@@ -57,9 +52,9 @@ public class LibraryApp {
     }
 
     private boolean deleteBook() {
-        int id = userDialog.removeBookDialog();
+        int id = display.removeBook();
         if (!bookDao.checkIfIdExists(id)) {
-            userDialog.acceptDialog("bookNotFoundError");
+            display.alert("bookNotFoundError");
             return false;
         }
         bookDao.delete(bookDao.findById(id));
@@ -68,24 +63,24 @@ public class LibraryApp {
     }
 
     private boolean findBook() {
-        int id = userDialog.findBookDialog();
+        int id = display.findBook();
         if (!bookDao.checkIfIdExists(id)) {
-            userDialog.acceptDialog("bookNotFoundError");
+            display.alert("bookNotFoundError");
             return false;
         }
-        displayBook.details(bookDao.findById(id));
+        display.bookDetails(bookDao.findById(id));
         return true;
 
     }
 
     private void addBook() {
-        Book book = userDialog.addBookDialog();
+        Book book = display.addBook();
         bookDao.add(book);
     }
 
     public void listBooks() {
         for (Book book : bookDao.getAll()) {
-            displayBook.title(book);
+            display.bookTitle(book);
         }
     }
 

@@ -1,4 +1,4 @@
-package works.buddy.library.view;
+package works.buddy.library.services;
 
 import works.buddy.library.model.Book;
 
@@ -6,11 +6,10 @@ import java.util.Scanner;
 
 import static works.buddy.library.services.Messages.getMessage;
 
-public class ConsoleUserDialog implements UserDialog {
-
+public class ConsoleDisplay implements Display{
     private final Scanner scanner;
 
-    public ConsoleUserDialog() {
+    public ConsoleDisplay() {
         scanner = new Scanner(System.in);
     }
 
@@ -25,9 +24,8 @@ public class ConsoleUserDialog implements UserDialog {
             scanner.nextLine();
         }
     }
-
     @Override
-    public Book addBookDialog() {
+    public Book addBook() {
         System.out.println(getMessage("addBookIntro"));
         Book book = new Book();
         System.out.println(getMessage("bookDataAuthor"));
@@ -42,19 +40,19 @@ public class ConsoleUserDialog implements UserDialog {
     }
 
     @Override
-    public int findBookDialog() {
+    public int findBook() {
         System.out.println(getMessage("findBookIntro"));
         return inputNumber();
     }
 
     @Override
-    public int removeBookDialog() {
+    public int removeBook() {
         System.out.println(getMessage("removeBookIntro"));
         return inputNumber();
     }
 
     @Override
-    public Book editBookDialog() {
+    public Book editBook() {
         System.out.println(getMessage("editBookIntro"));
         Book book = new Book();
         System.out.println(getMessage("bookDataId"));
@@ -71,15 +69,25 @@ public class ConsoleUserDialog implements UserDialog {
     }
 
     @Override
-    public int menuDialog() {
+    public int menu() {
         System.out.println(getMessage("menuList"));
         return inputNumber();
     }
 
     @Override
-    public void acceptDialog(String key) {
+    public void alert(String key) {
         System.out.println(getMessage(key));
         System.out.println(getMessage("continue"));
         scanner.nextLine();
+    }
+
+    @Override
+    public void bookDetails(Book book) {
+        System.out.println(book.getTitle() + " by " + book.getAuthor() + " [" + book.getReleaseYear() + "]");
+    }
+
+    @Override
+    public void bookTitle(Book book) {
+        System.out.println(book.getTitle());
     }
 }
