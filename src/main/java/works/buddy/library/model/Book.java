@@ -13,7 +13,6 @@ public class Book {
     private Integer releaseYear;
 
     public Book() {
-
     }
 
     public Book(Integer id, String title, String author, String genre, int releaseYear) {

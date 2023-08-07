@@ -19,8 +19,7 @@ public class CsvInitialData implements InitialData {
     public Collection<Book> getBooks() {
         Collection<Book> result = new ArrayList<>();
         try {
-            List<String[]> booksData = csvReader.getAllLines();
-            for (String[] object : booksData) {
+            for (String[] object : csvReader.getAllLines()) {
                 result.add(new Book(result.size(), object[0], object[1], object[2], Integer.parseInt(object[3])));
             }
         } catch (Exception e) {
