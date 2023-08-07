@@ -46,8 +46,9 @@ public class LibraryApp {
     }
 
     private void deleteBook() {
-        if (bookExists(ui.getBookIdForDeletion())) {
-            bookDAO.delete(bookDAO.findById(ui.getBookIdForDeletion()));
+        Integer bookId = ui.getBookIdForDeletion();
+        if (bookExists(bookId)) {
+            bookDAO.delete(bookDAO.findById(bookId));
         } else {
             displayBookNotFound();
         }
