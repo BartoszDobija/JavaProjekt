@@ -50,7 +50,12 @@ class InMemoryBookDAOTest {
         Integer bookId = book.getId();
         assertEquals(find(bookId), book);
         bookDAO.delete(bookId);
-        assertThrowsExactly(NotFoundException.class, () -> find(bookId));
+        assertEquals(0, bookDAO.findAll().size());
+    }
+
+    @Test
+    void deletingWhenNotFound() {
+        assertThrowsExactly(NotFoundException.class, () -> bookDAO.delete(1));
     }
 
     @Test
