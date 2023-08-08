@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import works.buddy.library.model.Book;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -24,7 +25,16 @@ class InMemoryBookDAOTest {
     }
 
     @Test
-    void update() {
+    void saving() {
+        save(getBookWithSampleValues(null));
+        Collection<Book> all = bookDAO.findAll();
+        assertNotNull(all);
+        assertEquals(1, all.size());
+        assertSampleValues(1, all.iterator().next());
+    }
+
+    @Test
+    void updating() {
         Book book = saveEmptyBook();
         Integer bookId = book.getId();
         assertEquals(1, bookId);
@@ -39,11 +49,15 @@ class InMemoryBookDAOTest {
 
     private Book saveEmptyBook() {
         Book book = new Book();
-        bookDAO.save(book);
+        save(book);
         return book;
     }
 
-    private static void assertSampleValues(Integer bookId, Book book) {
+    private void save(Book book) {
+        bookDAO.save(book);
+    }
+
+    private void assertSampleValues(Integer bookId, Book book) {
         assertNotNull(book);
         assertEquals(bookId, book.getId());
         assertEquals(AUTHOR, book.getAuthor());
@@ -51,7 +65,7 @@ class InMemoryBookDAOTest {
         assertEquals(YEAR, book.getReleaseYear());
     }
 
-    private static Book getBookWithSampleValues(Integer bookId) {
+    private Book getBookWithSampleValues(Integer bookId) {
         Book book = new Book();
         book.setId(bookId);
         book.setAuthor(AUTHOR);
