@@ -5,19 +5,18 @@ import com.opencsv.CSVReaderBuilder;
 
 import java.io.FileReader;
 import java.nio.file.Path;
-import java.util.List;
+import java.util.Collection;
 
 public class CsvReader {
 
-    private final Path filePath;
-
-    public CsvReader(Path filePath) {
-        this.filePath = filePath;
+    private CsvReader() {
     }
 
-    public List<String[]> getAllLines() throws Exception {
+    public static Collection<String[]> readCSV(Path filePath) {
         try (CSVReader reader = new CSVReaderBuilder(new FileReader(String.valueOf(filePath))).build()) {
             return reader.readAll();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 }

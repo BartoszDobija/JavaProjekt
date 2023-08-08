@@ -1,16 +1,16 @@
 package works.buddy.library.main;
 
 import works.buddy.library.dao.InMemoryBookDAO;
-import works.buddy.library.data.CsvInitialData;
 import works.buddy.library.model.Book;
 import works.buddy.library.services.ConsoleUI;
 import works.buddy.library.services.LibraryApp;
 import works.buddy.library.services.Messages;
-import works.buddy.library.utils.CsvReader;
 
 import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.Scanner;
+
+import static works.buddy.library.utils.CsvReader.readCSV;
 
 public class Main {
 
@@ -24,6 +24,10 @@ public class Main {
     }
 
     private static Collection<Book> getBooks() {
-        return new CsvInitialData(new CsvReader(Paths.get("src/main/resources/" + BOOKS_CSV))).getBooks();
+        return getBooks(readCSV(Paths.get("src/main/resources/" + BOOKS_CSV)));
+    }
+
+    private static Collection<Book> getBooks(Collection<String[]> lines) {
+        return lines.stream().map(object -> new Book(object[0], object[1], object[2], Integer.parseInt(object[3]))).toList();
     }
 }
