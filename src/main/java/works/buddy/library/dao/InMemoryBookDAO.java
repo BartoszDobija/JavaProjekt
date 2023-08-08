@@ -2,6 +2,7 @@ package works.buddy.library.dao;
 
 import works.buddy.library.model.Book;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 public class InMemoryBookDAO implements BookDAO {
@@ -9,7 +10,8 @@ public class InMemoryBookDAO implements BookDAO {
     private final Collection<Book> books;
 
     public InMemoryBookDAO(Collection<Book> books) {
-        this.books = books;
+        this.books = new ArrayList<>();
+        books.forEach(this::save);
     }
 
     private int getNextId() {
