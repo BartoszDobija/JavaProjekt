@@ -7,7 +7,7 @@ import works.buddy.library.model.Book;
 import java.util.ArrayList;
 import java.util.Collection;
 
-@Repository
+//@Repository
 public class InMemoryBookDAO implements BookDAO {
 
     @Autowired

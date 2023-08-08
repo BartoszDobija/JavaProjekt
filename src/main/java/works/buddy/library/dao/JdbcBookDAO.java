@@ -1,17 +1,17 @@
 package works.buddy.library.dao;
 
+import org.springframework.stereotype.Repository;
 import works.buddy.library.model.Book;
 
 import java.sql.*;
 import java.util.Collection;
-
+@Repository
 public class JdbcBookDAO implements BookDAO {
-
     private final Connection connection;
 
     public JdbcBookDAO() {
         try {
-            this.connection = DriverManager.getConnection("jdbc:mariadb://localhost/", "root", null);
+            this.connection = DriverManager.getConnection("jdbc:mariadb://localhost/library", "library", "library");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
