@@ -1,13 +1,17 @@
 package works.buddy.library.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import works.buddy.library.model.Book;
 
 import java.util.Scanner;
 
 import static works.buddy.library.services.Messages.getMessage;
 
+@Service
 public class ConsoleUI implements UI {
 
+    @Autowired
     private final Scanner scanner;
 
     public ConsoleUI(Scanner scanner) {
