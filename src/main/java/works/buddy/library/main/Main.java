@@ -3,7 +3,6 @@ package works.buddy.library.main;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import works.buddy.library.config.AppConfig;
-import works.buddy.library.dao.JdbcBookDAO;
 import works.buddy.library.services.LibraryApp;
 import works.buddy.library.services.Messages;
 
