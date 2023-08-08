@@ -11,6 +11,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class InMemoryBookDAOTest {
 
+    private static final String TITLE = "t";
+
     private static final String AUTHOR = "a";
 
     private static final String GENRE = "f";
@@ -43,6 +45,16 @@ class InMemoryBookDAOTest {
         assertSampleValues(bookId, find(bookId));
     }
 
+    @Test
+    void deleting() {
+        Book book = getBookWithSampleValues(null);
+        save(book);
+        Integer bookId = book.getId();
+        assertEquals(find(bookId), book);
+        bookDAO.delete(bookId);
+        assertThrowsExactly(NotFoundException.class, () -> find(bookId));
+    }
+
     private Book find(Integer bookId) {
         return bookDAO.find(bookId);
     }
@@ -60,6 +72,7 @@ class InMemoryBookDAOTest {
     private void assertSampleValues(Integer bookId, Book book) {
         assertNotNull(book);
         assertEquals(bookId, book.getId());
+        assertEquals(TITLE, book.getTitle());
         assertEquals(AUTHOR, book.getAuthor());
         assertEquals(GENRE, book.getGenre());
         assertEquals(YEAR, book.getReleaseYear());
@@ -68,6 +81,7 @@ class InMemoryBookDAOTest {
     private Book getBookWithSampleValues(Integer bookId) {
         Book book = new Book();
         book.setId(bookId);
+        book.setTitle(TITLE);
         book.setAuthor(AUTHOR);
         book.setGenre(GENRE);
         book.setReleaseYear(YEAR);
