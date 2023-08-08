@@ -39,8 +39,12 @@ class InMemoryBookDAOTest {
     void finding() {
         Book bookToSave = getBookWithSampleValues(null);
         save(bookToSave);
-        Book retrievedBook = find(bookToSave.getId());
-        assertSampleValues(1, retrievedBook);
+        assertSampleValues(1, find(bookToSave.getId()));
+    }
+
+    @Test
+    void findingWhenNotExists() {
+        assertThrowsExactly(NotFoundException.class, () -> find(1));
     }
 
     @Test
