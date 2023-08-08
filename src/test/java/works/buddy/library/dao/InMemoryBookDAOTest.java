@@ -36,13 +36,11 @@ class InMemoryBookDAOTest {
     }
 
     @Test
-    void updating() {
-        Book book = saveEmptyBook();
-        Integer bookId = book.getId();
-        assertEquals(1, bookId);
-        assertNull(find(bookId).getAuthor());
-        bookDAO.update(getBookWithSampleValues(bookId));
-        assertSampleValues(bookId, find(bookId));
+    void finding() {
+        Book bookToSave = getBookWithSampleValues(null);
+        save(bookToSave);
+        Book retrievedBook = find(bookToSave.getId());
+        assertSampleValues(1, retrievedBook);
     }
 
     @Test
@@ -53,6 +51,16 @@ class InMemoryBookDAOTest {
         assertEquals(find(bookId), book);
         bookDAO.delete(bookId);
         assertThrowsExactly(NotFoundException.class, () -> find(bookId));
+    }
+
+    @Test
+    void updating() {
+        Book book = saveEmptyBook();
+        Integer bookId = book.getId();
+        assertEquals(1, bookId);
+        assertNull(find(bookId).getAuthor());
+        bookDAO.update(getBookWithSampleValues(bookId));
+        assertSampleValues(bookId, find(bookId));
     }
 
     private Book find(Integer bookId) {
