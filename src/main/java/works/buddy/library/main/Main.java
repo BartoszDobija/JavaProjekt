@@ -1,5 +1,7 @@
 package works.buddy.library.main;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import works.buddy.library.dao.InMemoryBookDAO;
 import works.buddy.library.model.Book;
 import works.buddy.library.services.ConsoleUI;
@@ -20,6 +22,8 @@ public class Main {
 
     public static void main(String[] args) {
         Messages.init(MESSAGES_PROPERTIES);
+        ApplicationContext context = new ClassPathXmlApplicationContext("bean-config.xml");
+
         new LibraryApp(new InMemoryBookDAO(getBooks()), new ConsoleUI(new Scanner(System.in))).run();
     }
 

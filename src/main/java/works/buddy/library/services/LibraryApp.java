@@ -1,13 +1,18 @@
 package works.buddy.library.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import works.buddy.library.dao.BookDAO;
 import works.buddy.library.dao.NotFoundException;
 import works.buddy.library.model.Book;
 
+@Service
 public class LibraryApp {
 
+    @Autowired
     private final BookDAO bookDAO;
 
+    @Autowired
     private final UI ui;
 
     public LibraryApp(BookDAO bookDAO, UI ui) {
