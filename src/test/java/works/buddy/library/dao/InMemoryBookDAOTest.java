@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class InMemoryBookDAOTest {
 
     private static final String AUTHOR = "a";
-
+    private static final String GENRE = "f";
+    private static final Integer YEAR = 2000;
     @Test
     void update() {
         BookDAO bookDAO = new InMemoryBookDAO(new ArrayList<>());
@@ -22,6 +23,8 @@ class InMemoryBookDAOTest {
         Book bookUpdate = new Book();
         bookUpdate.setId(bookId);
         bookUpdate.setAuthor(AUTHOR);
+        bookUpdate.setGenre(GENRE);
+        bookUpdate.setReleaseYear(YEAR);
         assertNull(bookDAO.find(bookId).getAuthor());
 
         bookDAO.update(bookUpdate);
@@ -29,5 +32,7 @@ class InMemoryBookDAOTest {
         assertNotNull(bookFromDAO);
         assertEquals(bookId, bookFromDAO.getId());
         assertEquals(AUTHOR, bookFromDAO.getAuthor());
+        assertEquals(GENRE, bookFromDAO.getGenre());
+        assertEquals(YEAR, bookFromDAO.getReleaseYear());
     }
 }

@@ -47,7 +47,7 @@ public class LibraryApp {
         return running;
     }
 
-    private void editBook() {
+    private void editBook() throws NotFoundException {
         bookDAO.update(ui.getBookForUpdate());
     }
 

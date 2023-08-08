@@ -12,8 +12,6 @@ public interface BookDAO {
 
     Book find(Integer id) throws NotFoundException;
 
-    boolean exists(Integer id);
-
     void delete(Integer id) throws NotFoundException;
 
     void update(Book book) throws NotFoundException;
