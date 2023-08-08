@@ -6,8 +6,10 @@ import org.springframework.context.annotation.Configuration;
 import works.buddy.library.model.Book;
 
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 import static works.buddy.library.utils.CsvReader.readCSV;
 
@@ -32,6 +34,7 @@ public class AppConfig {
     }
 
     private static Collection<Book> getBooks(Collection<String[]> lines) {
-        return lines.stream().map(object -> new Book(object[0], object[1], object[2], Integer.parseInt(object[3]))).toList();
+        return lines.stream().map(object -> new Book(object[0], object[1], object[2], Integer.parseInt(object[3]))).collect(
+                Collectors.toCollection(ArrayList::new));
     }
 }
