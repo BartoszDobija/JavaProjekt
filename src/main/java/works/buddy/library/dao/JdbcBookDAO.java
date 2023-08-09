@@ -1,6 +1,8 @@
 package works.buddy.library.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Repository;
 import works.buddy.library.model.Book;
 
@@ -9,20 +11,21 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 @Repository
+@PropertySource("classpath:db.query.properties")
 public class JdbcBookDAO implements BookDAO {
 
     @Autowired
     private final Connection connection;
-
-    private static final String DELETE = "DELETE FROM books WHERE id=?";
-
-    private static final String FIND_ALL = "SELECT * FROM books ORDER BY id";
-
-    private static final String FIND = "SELECT * FROM books WHERE id=?";
-
-    private static final String INSERT = "INSERT INTO books (title, author, genre, releaseYear) VALUES(?, ?, ?, ?)";
-
-    private static final String UPDATE = "UPDATE books SET title=?, author=?, genre=?, releaseYear=? WHERE id=?";
+    @Value("${dbFindAll}")
+    private String FIND_ALL;
+    @Value("${dbFind}")
+    private String FIND;
+    @Value("${dbInsert}")
+    private String INSERT;
+    @Value("${dbUpdate}")
+    private String UPDATE;
+    @Value("${dbDelete}")
+    private String DELETE;
 
     public JdbcBookDAO(Connection connection) {
         this.connection = connection;

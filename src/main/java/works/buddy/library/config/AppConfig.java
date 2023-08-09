@@ -20,7 +20,7 @@ import static works.buddy.library.utils.CsvReader.readCSV;
 
 @Configuration
 @ComponentScan("works.buddy.library")
-@PropertySource("classpath:db.properties")
+@PropertySource("classpath:db.connection.properties")
 public class AppConfig {
 
     @Value("${dbUrl}")
