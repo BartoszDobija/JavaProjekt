@@ -91,7 +91,13 @@ public class JdbcBookDAO implements BookDAO {
 
     @Override
     public void delete(Integer id) throws NotFoundException {
-
+        try {
+            PreparedStatement statement = connection.prepareStatement(DELETE);
+            statement.setInt(1, id);
+            statement.executeUpdate();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
