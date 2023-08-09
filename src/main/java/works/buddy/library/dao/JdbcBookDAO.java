@@ -44,15 +44,18 @@ public class JdbcBookDAO implements BookDAO {
     @Override
     public Collection<Book> findAll() {
         try (PreparedStatement statement = prepareStatement(FIND_ALL)) {
-            Collection<Book> books = new ArrayList<>();
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                books.add(getBook(resultSet));
-            }
-            return books;
+            return getBooks(statement.executeQuery());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private Collection<Book> getBooks(ResultSet resultSet) throws SQLException {
+        Collection<Book> books = new ArrayList<>();
+        while (resultSet.next()) {
+            books.add(getBook(resultSet));
+        }
+        return books;
     }
 
     @Override
