@@ -18,7 +18,7 @@ public class JdbcBookDAO implements BookDAO {
 
     private static final String FIND = "SELECT * FROM books WHERE id=?";
 
-    private static final String INSERT = "INSERT INTO books (title, author, genre, releaseYear) VALUES(?, ?, ?)";
+    private static final String INSERT = "INSERT INTO books (title, author, genre, releaseYear) VALUES(?, ?, ?, ?)";
 
     private static final String UPDATE = "UPDATE books SET title=?, author=?, genre=?, releaseYear=? WHERE id=?";
 
@@ -30,7 +30,7 @@ public class JdbcBookDAO implements BookDAO {
         }
     }
 
-    public Book mapFromDB(ResultSet resultSet) {
+    public Book mapFromDb(ResultSet resultSet) {
         Book book = new Book();
         try {
             book.setId(resultSet.getInt("id"));
@@ -51,7 +51,7 @@ public class JdbcBookDAO implements BookDAO {
             PreparedStatement statement = connection.prepareStatement(FIND_ALL);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                books.add(mapFromDB(resultSet));
+                books.add(mapFromDb(resultSet));
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -61,7 +61,16 @@ public class JdbcBookDAO implements BookDAO {
 
     @Override
     public void save(Book book) {
-
+        try {
+            PreparedStatement statement = connection.prepareStatement(INSERT);
+            statement.setString(1, book.getTitle());
+            statement.setString(2, book.getAuthor());
+            statement.setString(3, book.getGenre());
+            statement.setInt(4, book.getReleaseYear());
+            statement.executeUpdate();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -72,7 +81,7 @@ public class JdbcBookDAO implements BookDAO {
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                book = mapFromDB(resultSet);
+                book = mapFromDb(resultSet);
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -87,6 +96,16 @@ public class JdbcBookDAO implements BookDAO {
 
     @Override
     public void update(Book book) throws NotFoundException {
-
+        try {
+            PreparedStatement statement = connection.prepareStatement(UPDATE);
+            statement.setString(1, book.getTitle());
+            statement.setString(2, book.getAuthor());
+            statement.setString(3, book.getGenre());
+            statement.setInt(4, book.getReleaseYear());
+            statement.setInt(5, book.getId());
+            statement.executeUpdate();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
