@@ -16,7 +16,7 @@ public class JdbcBookDAO implements BookDAO {
 
     private static final String FIND_ALL = "SELECT * FROM books ORDER BY id";
 
-    private static final String FIND_BY_ID = "SELECT * FROM books WHERE id=?";
+    private static final String FIND = "SELECT * FROM books WHERE id=?";
 
     private static final String INSERT = "INSERT INTO books (title, author, genre, releaseYear) VALUES(?, ?, ?)";
 
@@ -44,22 +44,12 @@ public class JdbcBookDAO implements BookDAO {
         return book;
     }
 
-    private ResultSet execute(String query) {
-        ResultSet resultSet;
-        try {
-            PreparedStatement statement = connection.prepareStatement(query);
-            resultSet = statement.executeQuery();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return resultSet;
-    }
-
     @Override
     public Collection<Book> findAll() {
         Collection<Book> books = new ArrayList<>();
-        ResultSet resultSet = execute(FIND_ALL);
         try {
+            PreparedStatement statement = connection.prepareStatement(FIND_ALL);
+            ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 books.add(mapFromDB(resultSet));
             }
@@ -76,7 +66,18 @@ public class JdbcBookDAO implements BookDAO {
 
     @Override
     public Book find(Integer id) throws NotFoundException {
-        return null;
+        Book book = new Book();
+        try {
+            PreparedStatement statement = connection.prepareStatement(FIND);
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                book = mapFromDB(resultSet);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return book;
     }
 
     @Override
