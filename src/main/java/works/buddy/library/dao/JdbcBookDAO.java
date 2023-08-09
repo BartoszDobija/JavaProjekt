@@ -122,7 +122,7 @@ public class JdbcBookDAO implements BookDAO {
 
     @Override
     public void update(Book book) throws NotFoundException {
-        try (PreparedStatement statement = bookToDb(INSERT, book)) {
+        try (PreparedStatement statement = bookToDb(UPDATE, book)) {
             statement.executeUpdate();
         } catch (Exception e) {
             throw new RuntimeException(e);
