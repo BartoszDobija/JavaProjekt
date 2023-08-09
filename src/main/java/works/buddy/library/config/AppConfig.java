@@ -1,8 +1,6 @@
 package works.buddy.library.config;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.*;
 import works.buddy.library.model.Book;
 
 import java.nio.file.Paths;
@@ -14,6 +12,8 @@ import static works.buddy.library.utils.CsvReader.readCSV;
 
 @Configuration
 @ComponentScan("works.buddy.library")
+@Import({HibernateConfig.class})
+@PropertySource("hibernate.properties")
 public class AppConfig {
 
     private static final String BOOKS_CSV = "books.csv";

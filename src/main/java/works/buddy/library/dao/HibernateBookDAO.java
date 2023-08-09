@@ -1,42 +1,44 @@
 package works.buddy.library.dao;
 
+import org.apache.commons.lang3.NotImplementedException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import works.buddy.library.model.Book;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import java.sql.Connection;
 import java.util.Collection;
 
 @Repository
 @Primary
+@Transactional
 public class HibernateBookDAO implements BookDAO {
 
     @Autowired
-    @PersistenceContext
-    private final EntityManager entityManager;
+    protected SessionFactory sessionFactory;
 
-    @Autowired
-    private final Connection connection;
+    public HibernateBookDAO(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
 
-    public HibernateBookDAO(EntityManager entityManager, Connection connection) {
-        this.entityManager = entityManager;
-        this.connection = connection;
+    private Session getCurrentSession() {
+        return sessionFactory.openSession();
     }
 
     @Override
     public Collection<Book> findAll() {
-        return entityManager.createQuery("select * from books").getResultList();
+        throw new NotImplementedException();
     }
 
     @Override
     public void save(Book book) {
         try {
-            entityManager.getTransaction().begin();
-            entityManager.persist(book);
-            entityManager.getTransaction().commit();
+            Session session = getCurrentSession();
+            session.getTransaction().begin();
+            session.persist(book);
+            session.getTransaction().commit();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -44,16 +46,16 @@ public class HibernateBookDAO implements BookDAO {
 
     @Override
     public Book find(Integer id) throws NotFoundException {
-        return entityManager.find(Book.class, id);
+        return getCurrentSession().find(Book.class, id);
     }
 
     @Override
     public void delete(Integer id) throws NotFoundException {
-        entityManager.remove(find(id));
+        getCurrentSession().remove(find(id));
     }
 
     @Override
     public void update(Book book) throws NotFoundException {
-        entityManager.merge(book);
+        getCurrentSession().merge(book);
     }
 }

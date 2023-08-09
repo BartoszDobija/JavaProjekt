@@ -1,7 +1,5 @@
 package works.buddy.library.model;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -10,8 +8,7 @@ import java.util.Objects;
 public class Book {
 
     @Id
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "title")
@@ -20,7 +17,7 @@ public class Book {
     @Column(name = "author")
     private String author;
 
-    @Column(name = "author")
+    @Column(name = "genre")
     private String genre;
 
     @Column(name = "releaseYear")
