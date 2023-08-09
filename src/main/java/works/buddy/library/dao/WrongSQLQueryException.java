@@ -1,5 +1,5 @@
 package works.buddy.library.dao;
 
-public class WrongSQLQueryException extends RuntimeException{
+public class WrongSQLQueryException extends RuntimeException {
 
 }

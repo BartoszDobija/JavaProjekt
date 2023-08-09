@@ -30,7 +30,7 @@ public class JdbcBookDAO implements BookDAO {
         }
     }
 
-    public Book bookFromDb(ResultSet resultSet) {
+    private Book bookFromDb(ResultSet resultSet) {
         Book book = new Book();
         try {
             book.setId(resultSet.getInt("id"));
@@ -44,10 +44,9 @@ public class JdbcBookDAO implements BookDAO {
         return book;
     }
 
-    public PreparedStatement bookToDb(String query, Book book) {
+    private PreparedStatement bookToDb(String query, Book book) throws WrongSQLQueryException {
+        PreparedStatement statement;
         try {
-            PreparedStatement statement;
-
             statement = connection.prepareStatement(query);
             statement.setString(1, book.getTitle());
             statement.setString(2, book.getAuthor());
@@ -56,25 +55,31 @@ public class JdbcBookDAO implements BookDAO {
             if (query.equals(UPDATE)) {
                 statement.setInt(5, book.getId());
             }
-            return statement;
         } catch (SQLException e) {
             throw new WrongSQLQueryException();
         }
+        return statement;
     }
 
-    public PreparedStatement intToDb(String query, int id) {
+    private PreparedStatement intToDb(String query, int id) throws WrongSQLQueryException {
+        PreparedStatement statement;
         try {
-            PreparedStatement statement;
             statement = connection.prepareStatement(query);
             statement.setInt(1, id);
-            return statement;
         } catch (SQLException e) {
             throw new WrongSQLQueryException();
+        }
+        return statement;
+    }
+
+    private void validateUpdate(int rowsAffected) throws NoUpdateException {
+        if (rowsAffected < 1) {
+            throw new NotFoundException();
         }
     }
 
     @Override
-    public Collection<Book> findAll() {
+    public Collection<Book> findAll() throws WrongSQLQueryException {
         Collection<Book> books = new ArrayList<>();
         try {
             PreparedStatement statement = connection.prepareStatement(FIND_ALL);
@@ -89,21 +94,23 @@ public class JdbcBookDAO implements BookDAO {
     }
 
     @Override
-    public void save(Book book) {
+    public void save(Book book) throws WrongSQLQueryException {
         try (PreparedStatement statement = bookToDb(INSERT, book)) {
-            statement.executeUpdate();
+            validateUpdate(statement.executeUpdate());
         } catch (SQLException e) {
             throw new WrongSQLQueryException();
         }
     }
 
     @Override
-    public Book find(Integer id) throws NotFoundException {
-        Book book = new Book();
-        try (PreparedStatement statement = intToDb(FIND, id)){
+    public Book find(Integer id) throws NotFoundException, WrongSQLQueryException {
+        Book book;
+        try (PreparedStatement statement = intToDb(FIND, id)) {
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 book = bookFromDb(resultSet);
+            } else {
+                throw new NotFoundException();
             }
         } catch (SQLException e) {
             throw new WrongSQLQueryException();
@@ -112,18 +119,19 @@ public class JdbcBookDAO implements BookDAO {
     }
 
     @Override
-    public void delete(Integer id) throws NotFoundException {
-        try (PreparedStatement statement = intToDb(DELETE, id)){
-            statement.executeUpdate();
+    public void delete(Integer id) throws NotFoundException, WrongSQLQueryException {
+        try (PreparedStatement statement = intToDb(DELETE, id)) {
+            validateUpdate(statement.executeUpdate());
         } catch (SQLException e) {
             throw new WrongSQLQueryException();
         }
     }
 
     @Override
-    public void update(Book book) throws NotFoundException {
+    public void update(Book book) throws NotFoundException, WrongSQLQueryException {
         try (PreparedStatement statement = bookToDb(UPDATE, book)) {
-            statement.executeUpdate();
+            validateUpdate(statement.executeUpdate());
+
         } catch (SQLException e) {
             throw new WrongSQLQueryException();
         }
