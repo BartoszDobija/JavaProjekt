@@ -1,6 +1,5 @@
 package works.buddy.library.dao;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Repository;
@@ -12,23 +11,32 @@ import java.util.Collection;
 
 @Repository
 @PropertySource("classpath:db.query.properties")
+@PropertySource("classpath:db.connection.properties")
 public class JdbcBookDAO implements BookDAO {
 
-    @Autowired
     private final Connection connection;
+
     @Value("${dbFindAll}")
     private String FIND_ALL;
+
     @Value("${dbFind}")
     private String FIND;
+
     @Value("${dbInsert}")
     private String INSERT;
+
     @Value("${dbUpdate}")
     private String UPDATE;
+
     @Value("${dbDelete}")
     private String DELETE;
 
-    public JdbcBookDAO(Connection connection) {
-        this.connection = connection;
+    public JdbcBookDAO(@Value("${dbUrl}") String url, @Value("${dbUser}") String user, @Value("${dbPassword}") String password) {
+        try {
+            this.connection = DriverManager.getConnection(url, user, password);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private Book mapBookFromDbResult(ResultSet resultSet) {
@@ -81,9 +89,11 @@ public class JdbcBookDAO implements BookDAO {
         return statement;
     }
 
-    private void bookIdWasValid(int rowsAffected) throws NotFoundException {
+    private void bookIdWasValid(int rowsAffected) throws RuntimeException {
         if (rowsAffected == 0) {
             throw new NotFoundException();
+        } else if (rowsAffected > 1) {
+            throw new RuntimeException();
         }
     }
 
