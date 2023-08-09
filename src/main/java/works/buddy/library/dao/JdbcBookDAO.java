@@ -30,7 +30,7 @@ public class JdbcBookDAO implements BookDAO {
         }
     }
 
-    public Book mapFromDb(ResultSet resultSet) {
+    public Book bookFromDb(ResultSet resultSet) {
         Book book = new Book();
         try {
             book.setId(resultSet.getInt("id"));
@@ -44,6 +44,35 @@ public class JdbcBookDAO implements BookDAO {
         return book;
     }
 
+    public PreparedStatement bookToDb(String query, Book book) {
+        try {
+            PreparedStatement statement;
+
+            statement = connection.prepareStatement(query);
+            statement.setString(1, book.getTitle());
+            statement.setString(2, book.getAuthor());
+            statement.setString(3, book.getGenre());
+            statement.setInt(4, book.getReleaseYear());
+            if (query.equals(UPDATE)) {
+                statement.setInt(5, book.getId());
+            }
+            return statement;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public PreparedStatement intToDb(String query, int id) {
+        try {
+            PreparedStatement statement;
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, id);
+            return statement;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Override
     public Collection<Book> findAll() {
         Collection<Book> books = new ArrayList<>();
@@ -51,7 +80,7 @@ public class JdbcBookDAO implements BookDAO {
             PreparedStatement statement = connection.prepareStatement(FIND_ALL);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                books.add(mapFromDb(resultSet));
+                books.add(bookFromDb(resultSet));
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -61,12 +90,7 @@ public class JdbcBookDAO implements BookDAO {
 
     @Override
     public void save(Book book) {
-        try {
-            PreparedStatement statement = connection.prepareStatement(INSERT);
-            statement.setString(1, book.getTitle());
-            statement.setString(2, book.getAuthor());
-            statement.setString(3, book.getGenre());
-            statement.setInt(4, book.getReleaseYear());
+        try (PreparedStatement statement = bookToDb(INSERT, book)) {
             statement.executeUpdate();
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -76,12 +100,10 @@ public class JdbcBookDAO implements BookDAO {
     @Override
     public Book find(Integer id) throws NotFoundException {
         Book book = new Book();
-        try {
-            PreparedStatement statement = connection.prepareStatement(FIND);
-            statement.setInt(1, id);
+        try (PreparedStatement statement = intToDb(FIND, id)){
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                book = mapFromDb(resultSet);
+                book = bookFromDb(resultSet);
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -91,9 +113,7 @@ public class JdbcBookDAO implements BookDAO {
 
     @Override
     public void delete(Integer id) throws NotFoundException {
-        try {
-            PreparedStatement statement = connection.prepareStatement(DELETE);
-            statement.setInt(1, id);
+        try (PreparedStatement statement = intToDb(DELETE, id)){
             statement.executeUpdate();
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -102,13 +122,7 @@ public class JdbcBookDAO implements BookDAO {
 
     @Override
     public void update(Book book) throws NotFoundException {
-        try {
-            PreparedStatement statement = connection.prepareStatement(UPDATE);
-            statement.setString(1, book.getTitle());
-            statement.setString(2, book.getAuthor());
-            statement.setString(3, book.getGenre());
-            statement.setInt(4, book.getReleaseYear());
-            statement.setInt(5, book.getId());
+        try (PreparedStatement statement = bookToDb(INSERT, book)) {
             statement.executeUpdate();
         } catch (Exception e) {
             throw new RuntimeException(e);
