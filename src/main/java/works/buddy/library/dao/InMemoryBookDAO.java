@@ -1,13 +1,11 @@
 package works.buddy.library.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import works.buddy.library.model.Book;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-//@Repository
 public class InMemoryBookDAO implements BookDAO {
 
     @Autowired

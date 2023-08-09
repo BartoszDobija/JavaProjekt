@@ -3,6 +3,10 @@ package works.buddy.library.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.core.Ordered;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import works.buddy.library.model.Book;
 
 import java.nio.file.Paths;
@@ -27,6 +31,20 @@ public class AppConfig {
     @Bean
     public Scanner scanner() {
         return new Scanner(System.in);
+    }
+
+    @Bean
+    public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
+        PropertySourcesPlaceholderConfigurer configurer = new PropertySourcesPlaceholderConfigurer();
+        configurer.setLocations(getResources());
+        configurer.setNullValue("@null");
+        configurer.setFileEncoding("UTF-8");
+        configurer.setOrder(Ordered.LOWEST_PRECEDENCE);
+        return configurer;
+    }
+
+    private static Resource[] getResources() {
+        return new ClassPathResource[]{new ClassPathResource("jdbc.properties")};
     }
 
     private static Collection<Book> getBooks() {

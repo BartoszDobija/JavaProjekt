@@ -1,7 +1,6 @@
 package works.buddy.library.dao;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Repository;
 import works.buddy.library.model.Book;
 
@@ -10,28 +9,31 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 @Repository
-@PropertySource("classpath:db.query.properties")
-@PropertySource("classpath:db.connection.properties")
 public class JdbcBookDAO implements BookDAO {
 
     private final Connection connection;
 
-    @Value("${dbFindAll}")
-    private String FIND_ALL;
+    private static final String ID = "id";
 
-    @Value("${dbFind}")
-    private String FIND;
+    private static final String TITLE = "title";
 
-    @Value("${dbInsert}")
-    private String INSERT;
+    private static final String AUTHOR = "author";
 
-    @Value("${dbUpdate}")
-    private String UPDATE;
+    private static final String GENRE = "genre";
 
-    @Value("${dbDelete}")
-    private String DELETE;
+    private static final String RELEASE_YEAR = "releaseYear";
 
-    public JdbcBookDAO(@Value("${dbUrl}") String url, @Value("${dbUser}") String user, @Value("${dbPassword}") String password) {
+    private static final String FIND_ALL = "SELECT * FROM books ORDER BY id";
+
+    private static final String FIND = "SELECT * FROM books WHERE id=?";
+
+    private static final String INSERT = "INSERT INTO books (title, author, genre, releaseYear) VALUES(?, ?, ?, ?)";
+
+    private static final String UPDATE = "UPDATE books SET title=?, author=?, genre=?, releaseYear=? WHERE id=?";
+
+    private static final String DELETE = "DELETE FROM books WHERE id=?";
+
+    public JdbcBookDAO(@Value("${db.Url}") String url, @Value("${db.User}") String user, @Value("${db.Password}") String password) {
         try {
             this.connection = DriverManager.getConnection(url, user, password);
         } catch (SQLException e) {
@@ -39,18 +41,20 @@ public class JdbcBookDAO implements BookDAO {
         }
     }
 
-    private Book mapBookFromDbResult(ResultSet resultSet) {
-        Book book = new Book();
+    private Book getBook(ResultSet resultSet) {
+
         try {
-            book.setId(resultSet.getInt("id"));
-            book.setTitle(resultSet.getString("title"));
-            book.setAuthor(resultSet.getString("author"));
-            book.setGenre(resultSet.getString("genre"));
-            book.setReleaseYear(resultSet.getInt("releaseYear"));
+            Book book = new Book();
+            book.setId(resultSet.getInt(ID));
+            book.setTitle(resultSet.getString(TITLE));
+            book.setAuthor(resultSet.getString(AUTHOR));
+            book.setGenre(resultSet.getString(GENRE));
+            book.setReleaseYear(resultSet.getInt(RELEASE_YEAR));
+            return book;
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return book;
     }
 
     private PreparedStatement prepareStatement(String query) {
@@ -61,9 +65,10 @@ public class JdbcBookDAO implements BookDAO {
         }
     }
 
-    private PreparedStatement statementWithData(String query, Book book) throws RuntimeException {
-        PreparedStatement statement;
+    private PreparedStatement prepareStatement(String query, Book book) {
+
         try {
+            PreparedStatement statement;
             statement = prepareStatement(query);
             statement.setString(1, book.getTitle());
             statement.setString(2, book.getAuthor());
@@ -72,24 +77,27 @@ public class JdbcBookDAO implements BookDAO {
             if (query.equals(UPDATE)) {
                 statement.setInt(5, book.getId());
             }
+            return statement;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return statement;
+
     }
 
-    private PreparedStatement statementWithData(String query, int id) throws RuntimeException {
-        PreparedStatement statement;
+    private PreparedStatement prepareStatement(String query, int id) {
+
         try {
+            PreparedStatement statement;
             statement = prepareStatement(query);
             statement.setInt(1, id);
+            return statement;
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return statement;
     }
 
-    private void bookIdWasValid(int rowsAffected) throws RuntimeException {
+    private void validateRowsAffected(int rowsAffected) throws NotFoundException {
         if (rowsAffected == 0) {
             throw new NotFoundException();
         } else if (rowsAffected > 1) {
@@ -97,23 +105,41 @@ public class JdbcBookDAO implements BookDAO {
         }
     }
 
-    @Override
-    public Collection<Book> findAll() throws RuntimeException {
-        Collection<Book> books = new ArrayList<>();
-        try (PreparedStatement statement = prepareStatement(FIND_ALL)) {
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                books.add(mapBookFromDbResult(resultSet));
-            }
+    public ResultSet executeSelectById(int id) {
+        try (PreparedStatement statement = prepareStatement(FIND, id)) {
+            return statement.executeQuery();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return books;
+    }
+
+    private boolean hasNext(ResultSet resultSet) {
+        try {
+            return resultSet.next();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
-    public void save(Book book) throws RuntimeException {
-        try (PreparedStatement statement = statementWithData(INSERT, book)) {
+    public Collection<Book> findAll() {
+        try (PreparedStatement statement = prepareStatement(FIND_ALL)) {
+            Collection<Book> books = new ArrayList<>();
+
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                books.add(getBook(resultSet));
+            }
+            return books;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void save(Book book) {
+        try (PreparedStatement statement = prepareStatement(INSERT, book)) {
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -121,34 +147,28 @@ public class JdbcBookDAO implements BookDAO {
     }
 
     @Override
-    public Book find(Integer id) throws RuntimeException {
-        Book book;
-        try (PreparedStatement statement = statementWithData(FIND, id)) {
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                book = mapBookFromDbResult(resultSet);
-            } else {
-                throw new NotFoundException();
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+    public Book find(Integer id) throws NotFoundException {
+        ResultSet resultSet = executeSelectById(id);
+        if (hasNext(resultSet)) {
+            return getBook(resultSet);
+        } else {
+            throw new NotFoundException();
         }
-        return book;
     }
 
     @Override
-    public void delete(Integer id) throws RuntimeException {
-        try (PreparedStatement statement = statementWithData(DELETE, id)) {
-            bookIdWasValid(statement.executeUpdate());
+    public void delete(Integer id) throws NotFoundException {
+        try (PreparedStatement statement = prepareStatement(DELETE, id)) {
+            validateRowsAffected(statement.executeUpdate());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public void update(Book book) throws RuntimeException {
-        try (PreparedStatement statement = statementWithData(UPDATE, book)) {
-            bookIdWasValid(statement.executeUpdate());
+    public void update(Book book) throws NotFoundException {
+        try (PreparedStatement statement = prepareStatement(UPDATE, book)) {
+            validateRowsAffected(statement.executeUpdate());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
