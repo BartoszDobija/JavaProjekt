@@ -1,6 +1,5 @@
 package works.buddy.library.dao;
 
-import org.apache.commons.lang3.NotImplementedException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import works.buddy.library.model.Book;
 
 import java.util.Collection;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 @Repository
 @Primary
@@ -29,16 +30,13 @@ public class HibernateBookDAO implements BookDAO {
 
     @Override
     public Collection<Book> findAll() {
-        throw new NotImplementedException();
+        return getCurrentSession().createQuery("from Book", Book.class).getResultList();
     }
 
     @Override
     public void save(Book book) {
         try {
-            Session session = getCurrentSession();
-            session.getTransaction().begin();
-            session.persist(book);
-            session.getTransaction().commit();
+            dbTransactionVoid(getCurrentSession(), o -> o.persist(book));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -51,11 +49,31 @@ public class HibernateBookDAO implements BookDAO {
 
     @Override
     public void delete(Integer id) throws NotFoundException {
-        getCurrentSession().remove(find(id));
+        try {
+            dbTransactionVoid(getCurrentSession(), o -> o.delete(find(id)));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public void update(Book book) throws NotFoundException {
-        getCurrentSession().merge(book);
+        try {
+            dbTransaction(getCurrentSession(), o -> o.merge(book));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void dbTransaction(Session session, Function<Session, Object> func) {
+        session.getTransaction().begin();
+        func.apply(session);
+        session.getTransaction().commit();
+    }
+
+    private void dbTransactionVoid(Session session, Consumer<Session> func) {
+        session.getTransaction().begin();
+        func.accept(session);
+        session.getTransaction().commit();
     }
 }
