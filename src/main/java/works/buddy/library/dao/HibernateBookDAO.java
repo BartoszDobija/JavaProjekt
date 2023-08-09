@@ -38,13 +38,21 @@ public class HibernateBookDAO implements BookDAO {
         try {
             dbTransactionVoid(getCurrentSession(), o -> o.persist(book));
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new NotFoundException();
         }
     }
 
     @Override
     public Book find(Integer id) throws NotFoundException {
-        return getCurrentSession().find(Book.class, id);
+        try {
+            Book book = getCurrentSession().find(Book.class, id);
+            if (book == null) {
+                throw new NotFoundException();
+            }
+            return book;
+        } catch (Exception e) {
+            throw new NotFoundException();
+        }
     }
 
     @Override
@@ -52,7 +60,7 @@ public class HibernateBookDAO implements BookDAO {
         try {
             dbTransactionVoid(getCurrentSession(), o -> o.delete(find(id)));
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new NotFoundException();
         }
     }
 
@@ -61,7 +69,7 @@ public class HibernateBookDAO implements BookDAO {
         try {
             dbTransaction(getCurrentSession(), o -> o.merge(book));
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new NotFoundException();
         }
     }
 
