@@ -39,7 +39,7 @@ public class JdbcBookDAO implements BookDAO {
             book.setGenre(resultSet.getString("genre"));
             book.setReleaseYear(resultSet.getInt("releaseYear"));
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new WrongSQLQueryException();
         }
         return book;
     }
@@ -57,8 +57,8 @@ public class JdbcBookDAO implements BookDAO {
                 statement.setInt(5, book.getId());
             }
             return statement;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new WrongSQLQueryException();
         }
     }
 
@@ -68,8 +68,8 @@ public class JdbcBookDAO implements BookDAO {
             statement = connection.prepareStatement(query);
             statement.setInt(1, id);
             return statement;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new WrongSQLQueryException();
         }
     }
 
@@ -82,8 +82,8 @@ public class JdbcBookDAO implements BookDAO {
             while (resultSet.next()) {
                 books.add(bookFromDb(resultSet));
             }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new WrongSQLQueryException();
         }
         return books;
     }
@@ -92,8 +92,8 @@ public class JdbcBookDAO implements BookDAO {
     public void save(Book book) {
         try (PreparedStatement statement = bookToDb(INSERT, book)) {
             statement.executeUpdate();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new WrongSQLQueryException();
         }
     }
 
@@ -105,8 +105,8 @@ public class JdbcBookDAO implements BookDAO {
             if (resultSet.next()) {
                 book = bookFromDb(resultSet);
             }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new WrongSQLQueryException();
         }
         return book;
     }
@@ -115,8 +115,8 @@ public class JdbcBookDAO implements BookDAO {
     public void delete(Integer id) throws NotFoundException {
         try (PreparedStatement statement = intToDb(DELETE, id)){
             statement.executeUpdate();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new WrongSQLQueryException();
         }
     }
 
@@ -124,8 +124,8 @@ public class JdbcBookDAO implements BookDAO {
     public void update(Book book) throws NotFoundException {
         try (PreparedStatement statement = bookToDb(UPDATE, book)) {
             statement.executeUpdate();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new WrongSQLQueryException();
         }
     }
 }
