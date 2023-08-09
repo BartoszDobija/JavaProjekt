@@ -42,7 +42,6 @@ public class JdbcBookDAO implements BookDAO {
     }
 
     private Book getBook(ResultSet resultSet) {
-
         try {
             Book book = new Book();
             book.setId(resultSet.getInt(ID));
@@ -51,7 +50,6 @@ public class JdbcBookDAO implements BookDAO {
             book.setGenre(resultSet.getString(GENRE));
             book.setReleaseYear(resultSet.getInt(RELEASE_YEAR));
             return book;
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -66,7 +64,6 @@ public class JdbcBookDAO implements BookDAO {
     }
 
     private PreparedStatement prepareStatement(String query, Book book) {
-
         try {
             PreparedStatement statement;
             statement = prepareStatement(query);
@@ -85,13 +82,11 @@ public class JdbcBookDAO implements BookDAO {
     }
 
     private PreparedStatement prepareStatement(String query, int id) {
-
         try {
             PreparedStatement statement;
             statement = prepareStatement(query);
             statement.setInt(1, id);
             return statement;
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -125,13 +120,11 @@ public class JdbcBookDAO implements BookDAO {
     public Collection<Book> findAll() {
         try (PreparedStatement statement = prepareStatement(FIND_ALL)) {
             Collection<Book> books = new ArrayList<>();
-
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 books.add(getBook(resultSet));
             }
             return books;
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
