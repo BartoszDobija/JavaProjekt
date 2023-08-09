@@ -41,81 +41,6 @@ public class JdbcBookDAO implements BookDAO {
         }
     }
 
-    private Book getBook(ResultSet resultSet) {
-        try {
-            Book book = new Book();
-            book.setId(resultSet.getInt(ID));
-            book.setTitle(resultSet.getString(TITLE));
-            book.setAuthor(resultSet.getString(AUTHOR));
-            book.setGenre(resultSet.getString(GENRE));
-            book.setReleaseYear(resultSet.getInt(RELEASE_YEAR));
-            return book;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private PreparedStatement prepareStatement(String query) {
-        try {
-            return connection.prepareStatement(query);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private PreparedStatement prepareStatement(String query, Book book) {
-        try {
-            PreparedStatement statement;
-            statement = prepareStatement(query);
-            statement.setString(1, book.getTitle());
-            statement.setString(2, book.getAuthor());
-            statement.setString(3, book.getGenre());
-            statement.setInt(4, book.getReleaseYear());
-            if (query.equals(UPDATE)) {
-                statement.setInt(5, book.getId());
-            }
-            return statement;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-    }
-
-    private PreparedStatement prepareStatement(String query, int id) {
-        try {
-            PreparedStatement statement;
-            statement = prepareStatement(query);
-            statement.setInt(1, id);
-            return statement;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private void validateRowsAffected(int rowsAffected) throws NotFoundException {
-        if (rowsAffected == 0) {
-            throw new NotFoundException();
-        } else if (rowsAffected > 1) {
-            throw new RuntimeException();
-        }
-    }
-
-    public ResultSet executeSelectById(int id) {
-        try (PreparedStatement statement = prepareStatement(FIND, id)) {
-            return statement.executeQuery();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private boolean hasNext(ResultSet resultSet) {
-        try {
-            return resultSet.next();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     @Override
     public Collection<Book> findAll() {
         try (PreparedStatement statement = prepareStatement(FIND_ALL)) {
@@ -164,6 +89,81 @@ public class JdbcBookDAO implements BookDAO {
             validateRowsAffected(statement.executeUpdate());
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    private Book getBook(ResultSet resultSet) {
+        try {
+            Book book = new Book();
+            book.setId(resultSet.getInt(ID));
+            book.setTitle(resultSet.getString(TITLE));
+            book.setAuthor(resultSet.getString(AUTHOR));
+            book.setGenre(resultSet.getString(GENRE));
+            book.setReleaseYear(resultSet.getInt(RELEASE_YEAR));
+            return book;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private PreparedStatement prepareStatement(String query, Book book) {
+        try {
+            PreparedStatement statement;
+            statement = prepareStatement(query);
+            statement.setString(1, book.getTitle());
+            statement.setString(2, book.getAuthor());
+            statement.setString(3, book.getGenre());
+            statement.setInt(4, book.getReleaseYear());
+            if (query.equals(UPDATE)) {
+                statement.setInt(5, book.getId());
+            }
+            return statement;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    private PreparedStatement prepareStatement(String query, int id) {
+        try {
+            PreparedStatement statement;
+            statement = prepareStatement(query);
+            statement.setInt(1, id);
+            return statement;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private PreparedStatement prepareStatement(String query) {
+        try {
+            return connection.prepareStatement(query);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public ResultSet executeSelectById(int id) {
+        try (PreparedStatement statement = prepareStatement(FIND, id)) {
+            return statement.executeQuery();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private boolean hasNext(ResultSet resultSet) {
+        try {
+            return resultSet.next();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void validateRowsAffected(int rowsAffected) throws NotFoundException {
+        if (rowsAffected == 0) {
+            throw new NotFoundException();
+        } else if (rowsAffected > 1) {
+            throw new RuntimeException();
         }
     }
 }
