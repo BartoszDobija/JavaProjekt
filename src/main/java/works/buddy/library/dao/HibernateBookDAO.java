@@ -9,8 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import works.buddy.library.model.Book;
 
 import java.util.Collection;
-import java.util.function.Consumer;
-import java.util.function.Function;
 
 @Repository
 @Primary
@@ -25,7 +23,7 @@ public class HibernateBookDAO implements BookDAO {
     }
 
     private Session getCurrentSession() {
-        return sessionFactory.openSession();
+        return sessionFactory.getCurrentSession();
     }
 
     @Override
@@ -36,7 +34,7 @@ public class HibernateBookDAO implements BookDAO {
     @Override
     public void save(Book book) {
         try {
-            dbTransactionVoid(getCurrentSession(), o -> o.persist(book));
+            getCurrentSession().persist(book);
         } catch (Exception e) {
             throw new NotFoundException();
         }
@@ -44,21 +42,17 @@ public class HibernateBookDAO implements BookDAO {
 
     @Override
     public Book find(Integer id) throws NotFoundException {
-        try {
-            Book book = getCurrentSession().find(Book.class, id);
-            if (book == null) {
-                throw new NotFoundException();
-            }
-            return book;
-        } catch (Exception e) {
+        Book book = getCurrentSession().find(Book.class, id);
+        if (book == null) {
             throw new NotFoundException();
         }
+        return book;
     }
 
     @Override
     public void delete(Integer id) throws NotFoundException {
         try {
-            dbTransactionVoid(getCurrentSession(), o -> o.delete(find(id)));
+            getCurrentSession().delete(find(id));
         } catch (Exception e) {
             throw new NotFoundException();
         }
@@ -67,21 +61,9 @@ public class HibernateBookDAO implements BookDAO {
     @Override
     public void update(Book book) throws NotFoundException {
         try {
-            dbTransaction(getCurrentSession(), o -> o.merge(book));
+            getCurrentSession().update(book);
         } catch (Exception e) {
             throw new NotFoundException();
         }
-    }
-
-    private void dbTransaction(Session session, Function<Session, Object> func) {
-        session.getTransaction().begin();
-        func.apply(session);
-        session.getTransaction().commit();
-    }
-
-    private void dbTransactionVoid(Session session, Consumer<Session> func) {
-        session.getTransaction().begin();
-        func.accept(session);
-        session.getTransaction().commit();
     }
 }
