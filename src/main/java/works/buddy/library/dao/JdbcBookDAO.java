@@ -30,7 +30,7 @@ public class JdbcBookDAO implements BookDAO {
         }
     }
 
-    private Book bookFromDb(ResultSet resultSet) {
+    private Book mapBookFromDbResult(ResultSet resultSet) {
         Book book = new Book();
         try {
             book.setId(resultSet.getInt("id"));
@@ -39,15 +39,23 @@ public class JdbcBookDAO implements BookDAO {
             book.setGenre(resultSet.getString("genre"));
             book.setReleaseYear(resultSet.getInt("releaseYear"));
         } catch (SQLException e) {
-            throw new WrongSQLQueryException();
+            throw new RuntimeException(e);
         }
         return book;
     }
 
-    private PreparedStatement bookToDb(String query, Book book) throws WrongSQLQueryException {
+    private PreparedStatement prepareStatement(String query) {
+        try {
+            return connection.prepareStatement(query);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private PreparedStatement statementWithData(String query, Book book) throws RuntimeException {
         PreparedStatement statement;
         try {
-            statement = connection.prepareStatement(query);
+            statement = prepareStatement(query);
             statement.setString(1, book.getTitle());
             statement.setString(2, book.getAuthor());
             statement.setString(3, book.getGenre());
@@ -56,84 +64,82 @@ public class JdbcBookDAO implements BookDAO {
                 statement.setInt(5, book.getId());
             }
         } catch (SQLException e) {
-            throw new WrongSQLQueryException();
+            throw new RuntimeException(e);
         }
         return statement;
     }
 
-    private PreparedStatement intToDb(String query, int id) throws WrongSQLQueryException {
+    private PreparedStatement statementWithData(String query, int id) throws RuntimeException {
         PreparedStatement statement;
         try {
-            statement = connection.prepareStatement(query);
+            statement = prepareStatement(query);
             statement.setInt(1, id);
         } catch (SQLException e) {
-            throw new WrongSQLQueryException();
+            throw new RuntimeException(e);
         }
         return statement;
     }
 
-    private void validateUpdate(int rowsAffected) throws NoUpdateException {
-        if (rowsAffected < 1) {
+    private void bookIdWasValid(int rowsAffected) throws NotFoundException {
+        if (rowsAffected == 0) {
             throw new NotFoundException();
         }
     }
 
     @Override
-    public Collection<Book> findAll() throws WrongSQLQueryException {
+    public Collection<Book> findAll() throws RuntimeException {
         Collection<Book> books = new ArrayList<>();
-        try {
-            PreparedStatement statement = connection.prepareStatement(FIND_ALL);
+        try (PreparedStatement statement = prepareStatement(FIND_ALL)) {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                books.add(bookFromDb(resultSet));
+                books.add(mapBookFromDbResult(resultSet));
             }
         } catch (SQLException e) {
-            throw new WrongSQLQueryException();
+            throw new RuntimeException(e);
         }
         return books;
     }
 
     @Override
-    public void save(Book book) throws WrongSQLQueryException {
-        try (PreparedStatement statement = bookToDb(INSERT, book)) {
-            validateUpdate(statement.executeUpdate());
+    public void save(Book book) throws RuntimeException {
+        try (PreparedStatement statement = statementWithData(INSERT, book)) {
+            statement.executeUpdate();
         } catch (SQLException e) {
-            throw new WrongSQLQueryException();
+            throw new RuntimeException(e);
         }
     }
 
     @Override
-    public Book find(Integer id) throws NotFoundException, WrongSQLQueryException {
+    public Book find(Integer id) throws RuntimeException {
         Book book;
-        try (PreparedStatement statement = intToDb(FIND, id)) {
+        try (PreparedStatement statement = statementWithData(FIND, id)) {
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                book = bookFromDb(resultSet);
+                book = mapBookFromDbResult(resultSet);
             } else {
                 throw new NotFoundException();
             }
         } catch (SQLException e) {
-            throw new WrongSQLQueryException();
+            throw new RuntimeException(e);
         }
         return book;
     }
 
     @Override
-    public void delete(Integer id) throws NotFoundException, WrongSQLQueryException {
-        try (PreparedStatement statement = intToDb(DELETE, id)) {
-            validateUpdate(statement.executeUpdate());
+    public void delete(Integer id) throws RuntimeException {
+        try (PreparedStatement statement = statementWithData(DELETE, id)) {
+            bookIdWasValid(statement.executeUpdate());
         } catch (SQLException e) {
-            throw new WrongSQLQueryException();
+            throw new RuntimeException(e);
         }
     }
 
     @Override
-    public void update(Book book) throws NotFoundException, WrongSQLQueryException {
-        try (PreparedStatement statement = bookToDb(UPDATE, book)) {
-            validateUpdate(statement.executeUpdate());
-
+    public void update(Book book) throws RuntimeException {
+        try (PreparedStatement statement = statementWithData(UPDATE, book)) {
+            bookIdWasValid(statement.executeUpdate());
         } catch (SQLException e) {
-            throw new WrongSQLQueryException();
+            throw new RuntimeException(e);
         }
     }
 }
