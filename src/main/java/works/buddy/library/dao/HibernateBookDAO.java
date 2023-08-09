@@ -1,12 +1,13 @@
 package works.buddy.library.dao;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 import works.buddy.library.model.Book;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.sql.Connection;
 import java.util.Collection;
 
 @Repository
@@ -14,38 +15,45 @@ import java.util.Collection;
 public class HibernateBookDAO implements BookDAO {
 
     @Autowired
-    private final SessionFactory sessionFactory;
+    @PersistenceContext
+    private final EntityManager entityManager;
 
-    public HibernateBookDAO(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
+    @Autowired
+    private final Connection connection;
+
+    public HibernateBookDAO(EntityManager entityManager, Connection connection) {
+        this.entityManager = entityManager;
+        this.connection = connection;
     }
 
     @Override
     public Collection<Book> findAll() {
-        return getCurrentSession().createQuery("from books").list();
+        return entityManager.createQuery("select * from books").getResultList();
     }
 
     @Override
     public void save(Book book) {
-        getCurrentSession().save(book);
-    }
-
-    private Session getCurrentSession() {
-        return sessionFactory.getCurrentSession();
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.persist(book);
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public Book find(Integer id) throws NotFoundException {
-        return getCurrentSession().get(Book.class, id);
+        return entityManager.find(Book.class, id);
     }
 
     @Override
     public void delete(Integer id) throws NotFoundException {
-        getCurrentSession().delete(find(id));
+        entityManager.remove(find(id));
     }
 
     @Override
     public void update(Book book) throws NotFoundException {
-        getCurrentSession().merge(book);
+        entityManager.merge(book);
     }
 }
