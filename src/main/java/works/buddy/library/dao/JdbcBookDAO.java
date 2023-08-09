@@ -1,5 +1,6 @@
 package works.buddy.library.dao;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import works.buddy.library.model.Book;
 
@@ -10,6 +11,7 @@ import java.util.Collection;
 @Repository
 public class JdbcBookDAO implements BookDAO {
 
+    @Autowired
     private final Connection connection;
 
     private static final String DELETE = "DELETE FROM books WHERE id=?";
@@ -22,12 +24,8 @@ public class JdbcBookDAO implements BookDAO {
 
     private static final String UPDATE = "UPDATE books SET title=?, author=?, genre=?, releaseYear=? WHERE id=?";
 
-    public JdbcBookDAO() {
-        try {
-            this.connection = DriverManager.getConnection("jdbc:mariadb://localhost/library", "library", "library");
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+    public JdbcBookDAO(Connection connection) {
+        this.connection = connection;
     }
 
     private Book mapBookFromDbResult(ResultSet resultSet) {
