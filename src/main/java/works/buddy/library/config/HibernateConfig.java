@@ -14,7 +14,7 @@ import javax.sql.DataSource;
 import java.util.Properties;
 
 @Configuration
-@PropertySource("dockerMariaDB.properties")
+@PropertySource("hibernate.properties")
 @EnableTransactionManagement
 public class HibernateConfig {
 
