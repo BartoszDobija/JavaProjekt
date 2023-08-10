@@ -38,7 +38,7 @@ public class AppConfig {
     }
 
     @Bean
-    public Connection connection(@Value("${db.Url}") String url, @Value("${db.User}") String user, @Value("${db.Password}") String password) {
+    public Connection connection(@Value("${db.url}") String url, @Value("${db.user}") String user, @Value("${db.password}") String password) {
         try {
             return DriverManager.getConnection(url, user, password);
         } catch (SQLException e) {
