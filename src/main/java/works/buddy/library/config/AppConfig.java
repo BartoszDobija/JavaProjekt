@@ -1,5 +1,6 @@
 package works.buddy.library.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +12,9 @@ import works.buddy.library.model.Book;
 
 import java.nio.file.Paths;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Scanner;
 import java.util.stream.Collectors;
@@ -31,6 +35,15 @@ public class AppConfig {
     @Bean
     public Scanner scanner() {
         return new Scanner(System.in);
+    }
+
+    @Bean
+    public Connection connection(@Value("${db.Url}") String url, @Value("${db.User}") String user, @Value("${db.Password}") String password) {
+        try {
+            return DriverManager.getConnection(url, user, password);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Bean

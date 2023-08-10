@@ -1,6 +1,6 @@
 package works.buddy.library.dao;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import works.buddy.library.model.Book;
 
@@ -10,8 +10,6 @@ import java.util.Collection;
 
 @Repository
 public class JdbcBookDAO implements BookDAO {
-
-    private final Connection connection;
 
     private static final String ID = "id";
 
@@ -33,12 +31,11 @@ public class JdbcBookDAO implements BookDAO {
 
     private static final String DELETE = "DELETE FROM books WHERE id=?";
 
-    public JdbcBookDAO(@Value("${db.Url}") String url, @Value("${db.User}") String user, @Value("${db.Password}") String password) {
-        try {
-            this.connection = DriverManager.getConnection(url, user, password);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+    @Autowired
+    private final Connection connection;
+
+    public JdbcBookDAO(Connection connection) {
+        this.connection = connection;
     }
 
     @Override
