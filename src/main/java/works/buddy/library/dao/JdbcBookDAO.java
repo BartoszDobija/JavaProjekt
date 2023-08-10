@@ -33,7 +33,7 @@ public class JdbcBookDAO implements BookDAO {
 
     private static final String DELETE = "DELETE FROM books WHERE id=?";
 
-    public JdbcBookDAO(@Value("${db.Url}") String url, @Value("${db.User}") String user, @Value("${db.Password}") String password) {
+    public JdbcBookDAO(@Value("${db.url}") String url, @Value("${db.user}") String user, @Value("${db.password}") String password) {
         try {
             this.connection = DriverManager.getConnection(url, user, password);
         } catch (SQLException e) {
