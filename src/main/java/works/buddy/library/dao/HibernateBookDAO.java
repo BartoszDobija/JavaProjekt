@@ -60,7 +60,9 @@ public class HibernateBookDAO implements BookDAO {
 
     @Override
     public void update(Book book) throws NotFoundException {
+        find(book.getId());
         try {
+            getCurrentSession().clear();
             getCurrentSession().update(book);
         } catch (Exception e) {
             throw new NotFoundException();
