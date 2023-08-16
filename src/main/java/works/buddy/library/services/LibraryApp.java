@@ -6,6 +6,9 @@ import works.buddy.library.dao.BookDAO;
 import works.buddy.library.dao.NotFoundException;
 import works.buddy.library.model.Book;
 
+import javax.annotation.PostConstruct;
+import java.util.Collection;
+
 @Service
 public class LibraryApp {
 
@@ -15,9 +18,22 @@ public class LibraryApp {
     @Autowired
     private final UI ui;
 
-    public LibraryApp(BookDAO bookDAO, UI ui) {
+    @Autowired
+    private final Collection<Book> books;
+
+    public LibraryApp(BookDAO bookDAO, UI ui, Collection<Book> books) {
         this.bookDAO = bookDAO;
         this.ui = ui;
+        this.books = books;
+    }
+
+
+    @PostConstruct
+    public void init() {
+        books.forEach(book -> {
+            book.setId(null);
+            bookDAO.save(book);
+        });
     }
 
     public void run() {
