@@ -5,7 +5,7 @@ services:
     ports:
       - "3303:3303"
     volumes:
-      - ./setupDatabase.sql:/docker-entrypoint-initdb.d/setupDatabase.sql
+      - ./setupDatabase.sh:/docker-entrypoint-initdb.d/setupDatabase.sh
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: library
