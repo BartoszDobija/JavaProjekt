@@ -4,7 +4,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import works.buddy.library.model.Book;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -23,7 +22,7 @@ class InMemoryBookDAOTest {
 
     @BeforeEach
     void setUp() {
-        bookDAO = new InMemoryBookDAO(new ArrayList<>());
+        bookDAO = new InMemoryBookDAO();
     }
 
     @Test
