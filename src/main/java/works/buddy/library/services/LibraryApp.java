@@ -27,13 +27,9 @@ public class LibraryApp {
         this.books = books;
     }
 
-
     @PostConstruct
     public void init() {
-        books.forEach(book -> {
-            book.setId(null);
-            bookDAO.save(book);
-        });
+        books.forEach(bookDAO::save);
     }
 
     public void run() {

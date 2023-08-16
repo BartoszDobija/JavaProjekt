@@ -34,7 +34,7 @@ public class HibernateBookDAO implements BookDAO {
     @Override
     public void save(Book book) {
         try {
-            getCurrentSession().persist(book);
+            getCurrentSession().save(book);
         } catch (Exception e) {
             throw new NotFoundException();
         }
