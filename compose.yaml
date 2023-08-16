@@ -12,17 +12,3 @@ services:
       MYSQL_USER: library
       MYSQL_PASSWORD: library
       MYSQL_TCP_PORT: 3308
-    healthcheck:
-      test: [ "CMD", "mysqladmin", "ping", "-h", "db", "--user=root", "--password=root" ]
-      timeout: 5s
-      retries: 1
-  app:
-    build:
-      context: .
-    volumes:
-      - ./src/main/resources/books.csv:/app/resources/books.csv
-    depends_on:
-      db:
-        condition: service_healthy
-    stdin_open: true
-    tty: true

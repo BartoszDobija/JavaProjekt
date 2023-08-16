@@ -7,14 +7,14 @@ To successfully launch the application you need to have:
 - MariaDB 10.6.12
 - Docker and Docker Compose
 
-## Building and running
+## Database setup
 
-1) Enter root folder of this application
-2) Execute `mvn clean install`
-3) Execute `docker compose up`
+Within root folder of this app, run `docker compose up -d` and wait until the database is ready.
 
-To access the app, execute `docker attach javaprojekt-app` in a separate terminal window, then press ENTER.
+## Build and run
 
-## Container removal
+To build the app, run `mvn clean install`. You can start it using `java -jar target/library.jar`
 
-You can remove the containers and volumes using `docker compose down -v` (Images must be disposed separately).
+## Database container removal
+
+You can remove the container and volumes using `docker compose down -v` (image must be disposed separately).
