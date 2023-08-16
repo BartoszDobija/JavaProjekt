@@ -7,10 +7,16 @@ import works.buddy.library.dao.NotFoundException;
 import works.buddy.library.model.Book;
 
 import javax.annotation.PostConstruct;
+import java.nio.file.Paths;
 import java.util.Collection;
+import java.util.stream.Collectors;
+
+import static works.buddy.library.utils.CsvReader.readCSV;
 
 @Service
 public class LibraryApp {
+
+    private static final String BOOKS_CSV = "books.csv";
 
     @Autowired
     private final BookDAO bookDAO;
@@ -18,18 +24,22 @@ public class LibraryApp {
     @Autowired
     private final UI ui;
 
-    @Autowired
-    private final Collection<Book> books;
-
-    public LibraryApp(BookDAO bookDAO, UI ui, Collection<Book> books) {
+    public LibraryApp(BookDAO bookDAO, UI ui) {
         this.bookDAO = bookDAO;
         this.ui = ui;
-        this.books = books;
     }
 
     @PostConstruct
     public void init() {
-        books.forEach(bookDAO::save);
+        loadBooksFromStaticFile().forEach(bookDAO::save);
+    }
+
+    private Collection<Book> loadBooksFromStaticFile() {
+        return parseBooks(readCSV(Paths.get("src/main/resources/" + BOOKS_CSV)));
+    }
+
+    private Collection<Book> parseBooks(Collection<String[]> lines) {
+        return lines.stream().map(object -> new Book(object[0], object[1], object[2], Integer.parseInt(object[3]))).collect(Collectors.toList());
     }
 
     public void run() {
