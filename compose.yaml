@@ -3,7 +3,7 @@ services:
   db:
     image: mariadb:10.6.12
     ports:
-      - "3306:3306"
+      - "3308:3308"
     volumes:
       - ./setupDatabase.sql:/docker-entrypoint-initdb.d/setupDatabase.sql
     environment:
@@ -11,6 +11,7 @@ services:
       MYSQL_DATABASE: library
       MYSQL_USER: library
       MYSQL_PASSWORD: library
+      MYSQL_TCP_PORT: 3308
     healthcheck:
       test: [ "CMD", "mysqladmin", "ping", "-h", "db", "--user=root", "--password=root" ]
       timeout: 5s
