@@ -61,7 +61,7 @@ public class AppConfig {
     }
 
     private static Collection<Book> getBooks() {
-        return getBooks(readCSV(Paths.get("src/main/resources/" + BOOKS_CSV)));
+        return getBooks(readCSV(Paths.get("/app/resources/" + BOOKS_CSV)));
     }
 
     private static Collection<Book> getBooks(Collection<String[]> lines) {

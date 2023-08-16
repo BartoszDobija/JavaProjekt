@@ -1,0 +1,27 @@
+version: '3'
+services:
+  db:
+    image: mariadb:10.6.12
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./setupDatabase.sql:/docker-entrypoint-initdb.d/setupDatabase.sql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: library
+      MYSQL_USER: library
+      MYSQL_PASSWORD: library
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "db", "--user=root", "--password=root" ]
+      timeout: 5s
+      retries: 1
+  app:
+    build:
+      context: .
+    volumes:
+      - ./src/main/resources/books.csv:/app/resources/books.csv
+    depends_on:
+      db:
+        condition: service_healthy
+    stdin_open: true
+    tty: true

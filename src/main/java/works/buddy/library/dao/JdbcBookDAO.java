@@ -1,6 +1,7 @@
 package works.buddy.library.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 import works.buddy.library.model.Book;
 
@@ -8,6 +9,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collection;
 
+@Primary
 @Repository
 public class JdbcBookDAO implements BookDAO {
 
