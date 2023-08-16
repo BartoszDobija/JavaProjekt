@@ -1,0 +1,14 @@
+version: '3'
+services:
+  db:
+    image: mariadb:10.6.12
+    ports:
+      - "3303:3303"
+    volumes:
+      - ./setupDatabase.sql:/docker-entrypoint-initdb.d/setupDatabase.sql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: library
+      MYSQL_USER: library
+      MYSQL_PASSWORD: library
+      MYSQL_TCP_PORT: 3303

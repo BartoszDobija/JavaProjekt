@@ -1,0 +1,7 @@
+CREATE DATABASE IF NOT EXISTS library;
+
+USE library;
+
+CREATE USER IF NOT EXISTS 'library'@'db' IDENTIFIED BY 'library';
+GRANT ALL PRIVILEGES ON library.* TO 'library'@'db';
+FLUSH PRIVILEGES;
