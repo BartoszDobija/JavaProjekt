@@ -10,6 +10,6 @@ CREATE TABLE IF NOT EXISTS books (
     releaseYear INT
 );
 
-CREATE USER 'library'@'db' IDENTIFIED BY 'library';
+CREATE USER IF NOT EXISTS 'library'@'db' IDENTIFIED BY 'library';
 GRANT ALL PRIVILEGES ON library.* TO 'library'@'db';
 FLUSH PRIVILEGES;
