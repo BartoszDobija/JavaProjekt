@@ -1,6 +1,7 @@
 package works.buddy.library.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 import works.buddy.library.dao.BookDAO;
 import works.buddy.library.dao.NotFoundException;
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 import static works.buddy.library.utils.CsvReader.readCSV;
 
 @Service
+@DependsOn("liquibase")
 public class LibraryApp {
 
     private static final String BOOKS_CSV = "books.csv";
