@@ -7,6 +7,7 @@ services:
       - "3303:3303"
     volumes:
       - ./setupDatabase.sh:/docker-entrypoint-initdb.d/setupDatabase.sh
+      - ./data:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: library
