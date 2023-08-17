@@ -14,3 +14,12 @@ services:
       MYSQL_USER: library
       MYSQL_PASSWORD: library
       MYSQL_TCP_PORT: 3303
+    command:
+      - "--character-set-server=utf8"
+      - "--collation-server=utf8_unicode_ci"
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "--user=root", "--password=root" ]
+      interval: 3s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
