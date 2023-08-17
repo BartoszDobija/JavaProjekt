@@ -5,6 +5,11 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
     <changeSet id="Starting point of database" author="bartoszd">
+        <preConditions onFail="CONTINUE">
+            <not>
+                <tableExists tableName="books"/>
+            </not>
+        </preConditions>
         <createTable tableName="books">
             <column autoIncrement="true" name="id" type="INT">
                 <constraints nullable="false" primaryKey="true"/>
