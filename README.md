@@ -10,6 +10,8 @@ To successfully launch the application you need to have:
 
 In the root folder of project run `docker compose up -d` and wait for tasks to finish.
 
+When you are first launching application change `hibernate.hbm2ddl.auto=none` to `hibernate.hbm2ddl.auto=create` so it generates required tables.
+
 ## Building and running
 
 To build application execute command `mvn clean install` in root folder of this project. To run the application in the same place execute `java -jar 

@@ -31,7 +31,9 @@ public class LibraryApp {
 
     @PostConstruct
     public void init() {
-        loadBooksFromStaticFile().forEach(bookDAO::save);
+        if (bookDAO.findAll().isEmpty()) {
+            loadBooksFromStaticFile().forEach(bookDAO::save);
+        }
     }
 
     private Collection<Book> loadBooksFromStaticFile() {
