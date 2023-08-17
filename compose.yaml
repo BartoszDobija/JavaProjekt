@@ -1,6 +1,7 @@
 version: '3'
 services:
   db:
+    container_name: library_db
     image: mariadb:10.6.12
     ports:
       - "3303:3303"
