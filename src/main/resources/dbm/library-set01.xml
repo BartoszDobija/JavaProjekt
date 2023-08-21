@@ -3,7 +3,13 @@
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+
     <changeSet id="add authors table" author="bartoszd">
+        <preConditions onFail="CONTINUE">
+            <not>
+                <tableExists tableName="authors"/>
+            </not>
+        </preConditions>
         <createTable tableName="authors">
             <column autoIncrement="true" name="id" type="INTEGER">
                 <constraints nullable="false" primaryKey="true"/>
@@ -11,5 +17,51 @@
             <column name="firstname" type="VARCHAR(255)"/>
             <column name="lastname" type="VARCHAR(255)"/>
         </createTable>
+    </changeSet>
+
+    <changeSet id="populate authors table with existing data" author="bartoszd">
+        <preConditions onFail="CONTINUE">
+            <tableExists tableName="authors"/>
+            <tableIsEmpty tableName="authors"/>
+        </preConditions>
+        <sql>
+            INSERT INTO authors (firstname, lastname)
+            SELECT
+            SUBSTRING_INDEX(author, ' ', LENGTH(author) - LENGTH(REPLACE(author, ' ', ''))) AS firstname,
+            SUBSTRING_INDEX(author, ' ', -1) AS lastname
+            FROM books;
+        </sql>
+    </changeSet>
+
+    <changeSet id="create booksAuthors table" author="bartoszd">
+        <preConditions onFail="CONTINUE">
+            <not>
+                <tableExists tableName="booksAuthors"/>
+            </not>
+        </preConditions>
+        <createTable tableName="booksAuthors">
+            <column name="bookId" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="authorId" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey tableName="booksAuthors" columnNames="bookId, authorId" constraintName="ck_bookAuthors"/>
+        <addForeignKeyConstraint baseTableName="booksAuthors" baseColumnNames="bookId"
+                                 referencedTableName="books" referencedColumnNames="id"
+                                 constraintName="fk_bookAuthors_book"/>
+        <addForeignKeyConstraint baseTableName="booksAuthors" baseColumnNames="authorId"
+                                 referencedTableName="authors" referencedColumnNames="id"
+                                 constraintName="fk_bookAuthors_author"/>
+    </changeSet>
+
+    <changeSet id="add values into booksAuthors table" author="bartoszd">
+        <sql>
+            INSERT INTO booksAuthors (bookId, authorId)
+            SELECT b.id, a.id
+            FROM books b
+            INNER JOIN authors a ON b.author = CONCAT(a.firstname, ' ', a.lastname);
+        </sql>
     </changeSet>
 </databaseChangeLog>
