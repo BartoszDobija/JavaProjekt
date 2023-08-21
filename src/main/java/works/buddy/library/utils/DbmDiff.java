@@ -32,13 +32,20 @@ import java.util.stream.Collectors;
 @Command(name = "java -jar dbmDiff.jar", version = "Buddy DbmDiff 1.0", mixinStandardHelpOptions = true)
 public class DbmDiff implements Runnable {
 
+    @Option(names = {"-a", "--all"}, description = "Say hello to everyone")
+    private boolean all;
+
     public DbmDiff() {
 
     }
 
     @Override
     public void run() {
-        System.out.println("hey");
+        String message = "hey";
+        if (all) {
+            message += "everyone";
+        }
+        System.out.println(message);
     }
 
     public static void main(String[] args) throws Exception {
