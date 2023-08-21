@@ -20,3 +20,8 @@ target/library.jar`
 ## Database container removal
 
 You can remove the container and volumes using `docker compose down -v` (image must be disposed separately).
+
+## Generating changelog
+
+Using liquibase commands you can easily generate changelog representing current state of database. In root folder of the project execute `liquibase generate-changelog --defaults-file ./src/main/resources/liquibase.properties
+` and generatedChangelog.xml file will appear in resources/dbm folder where you can take relevant parts of changelog.
