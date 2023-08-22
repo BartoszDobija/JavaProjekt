@@ -24,15 +24,6 @@ public class HibernateConfig {
     @Value("${hibernate.dialect}")
     private String dialect;
 
-    @Value("${hibernate.cache.use_second_level_cache}")
-    private String useSecondLevelCache;
-
-    @Value("${hibernate.cache.region.factory_class}")
-    private String factoryClass;
-
-    @Value("${hibernate.cache.ehcache.missing_cache_strategy}")
-    private String missingCacheStrategy;
-
     @Autowired
     private DataSource dataSource;
 
@@ -56,9 +47,6 @@ public class HibernateConfig {
         Properties hibernateProperties = new Properties();
         hibernateProperties.setProperty("hibernate.hbm2ddl.auto", hbm2ddl);
         hibernateProperties.setProperty("hibernate.dialect", dialect);
-        hibernateProperties.setProperty("hibernate.cache.use_second_level_cache", useSecondLevelCache);
-        hibernateProperties.setProperty("hibernate.cache.region.factory_class", factoryClass);
-        hibernateProperties.setProperty("hibernate.cache.ehcache.missing_cache_strategy", missingCacheStrategy);
         return hibernateProperties;
     }
 }
