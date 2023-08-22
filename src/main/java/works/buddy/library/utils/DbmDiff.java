@@ -46,7 +46,7 @@ public class DbmDiff implements Runnable {
     @Option(names = "--driver", description = "The parameter specifies the database driver class.")
     private String driver;
 
-    @Option(names = "--reference-url", defaultValue = "jdbc:mariadb://localhost:3303/library", description = "The parameter specifies the JDBC reference " +
+    @Option(names = "--reference-url", defaultValue = "jdbc:mariadb://localhost:3303/library_ref", description = "The parameter specifies the JDBC reference " +
             "database connection URL.")
     private String referenceUrl;
 
@@ -174,6 +174,8 @@ public class DbmDiff implements Runnable {
         try (var conn = DriverManager.getConnection(data.serverUrl, data.username, data.password); var stmt = conn.createStatement()) {
             stmt.executeUpdate(String.format("drop database if exists %s", data.database));
             stmt.executeUpdate(String.format("create database %s default character set utf8", data.database));
+//            stmt.executeUpdate(String.format("create user if not exists '%s'@'localhost' identified by '%s'", data.username, data.password));
+//            stmt.executeUpdate(String.format("grant all privileges on %s.* to '%s'@'localhost'", data.database, data.username));
         }
     }
 
