@@ -4,7 +4,6 @@ import liquibase.integration.spring.SpringLiquibase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -51,10 +50,10 @@ public class Migration {
         @Autowired
         private DataSource dataSource;
 
-        @Value("${dbm.contexts}")
+        //@Value("${dbm.contexts}")
         private String contexts;
 
-        @Value("${dbm.enabled}")
+        //@Value("${dbm.enabled}")
         private Boolean enabled;
 
         @Bean
@@ -77,8 +76,8 @@ public class Migration {
             liquibase.setDataSource(dataSource);
             liquibase.setDatabaseChangeLogTable(Def.CHANGELOG_TABLE);
             liquibase.setDatabaseChangeLogLockTable(Def.LOCK_TABLE);
-            liquibase.setContexts(contexts);
-            liquibase.setShouldRun(enabled);
+            //liquibase.setContexts(contexts);
+            //liquibase.setShouldRun(enabled);
             return liquibase;
         }
     }
