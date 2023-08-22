@@ -76,11 +76,6 @@
             <version>4.19.1</version>
         </dependency>
         <dependency>
-            <groupId>info.picocli</groupId>
-            <artifactId>picocli</artifactId>
-            <version>4.7.4</version>
-        </dependency>
-        <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <version>5.9.3</version>
@@ -135,15 +130,15 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.3.0</version>
+                <version>2.6</version>
                 <executions>
                     <execution>
                         <id>create-main-app-jar</id>
-                        <phase>package</phase>
                         <goals>
                             <goal>jar</goal>
                         </goals>
                         <configuration>
+                            <jarName>library</jarName>
                             <archive>
                                 <manifest>
                                     <addClasspath>true</addClasspath>
@@ -151,16 +146,15 @@
                                     <mainClass>works.buddy.library.main.Main</mainClass>
                                 </manifest>
                             </archive>
-                            <classifier>main</classifier>
                         </configuration>
                     </execution>
                     <execution>
                         <id>create-dbmdiff-jar</id>
-                        <phase>package</phase>
                         <goals>
                             <goal>jar</goal>
                         </goals>
                         <configuration>
+                            <jarName>dbmDiff</jarName>
                             <archive>
                                 <manifest>
                                     <addClasspath>true</addClasspath>
@@ -168,7 +162,6 @@
                                     <mainClass>works.buddy.library.utils.DbmDiff</mainClass>
                                 </manifest>
                             </archive>
-                            <classifier>diff</classifier>
                         </configuration>
                     </execution>
                 </executions>
