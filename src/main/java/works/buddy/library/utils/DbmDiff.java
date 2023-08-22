@@ -21,6 +21,7 @@ import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
+import works.buddy.library.config.LiquibaseConfig;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.*;
@@ -180,10 +181,10 @@ public class DbmDiff implements Runnable {
     private void update(ConnectionInfo data) throws Exception {
         var dataSource = dataSource(data);
         var liquibase = new SpringLiquibase();
-        liquibase.setChangeLog(Migration.Def.CHANGELOG_FILE);
+        liquibase.setChangeLog(LiquibaseConfig.Def.CHANGELOG_FILE);
         liquibase.setDataSource(dataSource);
-        liquibase.setDatabaseChangeLogTable(Migration.Def.CHANGELOG_TABLE);
-        liquibase.setDatabaseChangeLogLockTable(Migration.Def.LOCK_TABLE);
+        liquibase.setDatabaseChangeLogTable(LiquibaseConfig.Def.CHANGELOG_TABLE);
+        liquibase.setDatabaseChangeLogLockTable(LiquibaseConfig.Def.LOCK_TABLE);
         liquibase.setContexts(contexts);
         liquibase.setResourceLoader(new FileSystemResourceLoader());
         liquibase.afterPropertiesSet();
@@ -219,7 +220,7 @@ public class DbmDiff implements Runnable {
 
     private Database database(ConnectionInfo data) throws DatabaseException {
         return CommandLineUtils.createDatabaseObject(new FileSystemResourceAccessor(), data.url, data.username, data.password, data.driver, null, null, true,
-                true, null, null, null, null, null, Migration.Def.CHANGELOG_TABLE, Migration.Def.LOCK_TABLE);
+                true, null, null, null, null, null, LiquibaseConfig.Def.CHANGELOG_TABLE, LiquibaseConfig.Def.LOCK_TABLE);
     }
 
     public static void main(String[] args) throws Exception {
