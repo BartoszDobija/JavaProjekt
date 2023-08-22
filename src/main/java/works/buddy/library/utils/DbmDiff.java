@@ -229,8 +229,7 @@ public class DbmDiff implements Runnable {
 
     private static Properties loadProps() throws IOException {
         Properties properties = new Properties();
-        properties.load(new ClassPathResource("conf/hibernate.properties").getInputStream());
-        properties.load(new ClassPathResource("conf/run.properties").getInputStream());
+        properties.load(new ClassPathResource("hibernate.properties").getInputStream());
         return properties;
     }
 
