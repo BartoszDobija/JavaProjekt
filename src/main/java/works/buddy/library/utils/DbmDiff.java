@@ -46,15 +46,15 @@ public class DbmDiff implements Runnable {
     @Option(names = "--driver", description = "The parameter specifies the database driver class.")
     private String driver;
 
-    @Option(names = "--reference-url", defaultValue = "jdbc:mysql://localhost:3309/buddy_ref", description = "The parameter specifies the JDBC reference " +
+    @Option(names = "--reference-url", defaultValue = "jdbc:mariadb://localhost:3303/library", description = "The parameter specifies the JDBC reference " +
             "database connection URL.")
     private String referenceUrl;
 
-    @Option(names = "--reference-username", defaultValue = "buddy", description = "The parameter specifies the username to use for connection to the " +
+    @Option(names = "--reference-username", defaultValue = "library", description = "The parameter specifies the username to use for connection to the " +
             "reference database.")
     private String referenceUsername;
 
-    @Option(names = "--reference-password", defaultValue = "buddy", description = "The parameter specifies the password to use for connection to the " +
+    @Option(names = "--reference-password", defaultValue = "library", description = "The parameter specifies the password to use for connection to the " +
             "reference database.")
     private String referencePassword;
 
