@@ -7,6 +7,7 @@ services:
       - "3303:3303"
     volumes:
       - ./init_db.sh:/docker-entrypoint-initdb.d/init_db.sh
+      - ./diff_db.sql:/docker-entrypoint-initdb.d/diff_db.sql
       - ./data:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
