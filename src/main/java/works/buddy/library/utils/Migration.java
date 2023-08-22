@@ -50,12 +50,6 @@ public class Migration {
         @Autowired
         private DataSource dataSource;
 
-        //@Value("${dbm.contexts}")
-        private String contexts;
-
-        //@Value("${dbm.enabled}")
-        private Boolean enabled;
-
         @Bean
         public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
             PropertySourcesPlaceholderConfigurer configurer = new PropertySourcesPlaceholderConfigurer();
@@ -76,8 +70,6 @@ public class Migration {
             liquibase.setDataSource(dataSource);
             liquibase.setDatabaseChangeLogTable(Def.CHANGELOG_TABLE);
             liquibase.setDatabaseChangeLogLockTable(Def.LOCK_TABLE);
-            //liquibase.setContexts(contexts);
-            //liquibase.setShouldRun(enabled);
             return liquibase;
         }
     }
