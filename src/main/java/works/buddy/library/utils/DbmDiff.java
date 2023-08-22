@@ -152,12 +152,16 @@ public class DbmDiff implements Runnable {
         CompareControl.SchemaComparison[] finalSchemaComparisons = computedSchemas.finalSchemaComparisons;
         DiffOutputControl diffOutputControl = new DiffOutputControl(false, false, false, finalSchemaComparisons);
 
-        var excludeObjects = new BufferedReader(
-                new InputStreamReader(getClass().getResourceAsStream("/dbm/excludeObjects.txt"), StandardCharsets.UTF_8)).lines().map(String::trim).filter(
-                rule -> !(rule.isEmpty() || rule.startsWith("#"))).collect(Collectors.joining(",")).trim();
-        if (!excludeObjects.isEmpty()) {
-            diffOutputControl.setObjectChangeFilter(new StandardObjectChangeFilter(StandardObjectChangeFilter.FilterType.EXCLUDE, excludeObjects));
+        InputStream inputStream = getClass().getResourceAsStream("/dbm/excludeObjects.txt");
+        if (inputStream != null) {
+            var excludeObjects = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8)).lines().map(String::trim).filter(
+                    rule -> !(rule.isEmpty() || rule.startsWith("#"))).collect(Collectors.joining(",")).trim();
+
+            if (!excludeObjects.isEmpty()) {
+                diffOutputControl.setObjectChangeFilter(new StandardObjectChangeFilter(StandardObjectChangeFilter.FilterType.EXCLUDE, excludeObjects));
+            }
         }
+
         CommandScope command = new CommandScope("internalDiffChangeLog");
         command.addArgumentValue(InternalDiffChangelogCommandStep.REFERENCE_DATABASE_ARG, referenceDatabase).addArgumentValue(
                         InternalDiffChangelogCommandStep.TARGET_DATABASE_ARG, targetDatabase).addArgumentValue(InternalDiffChangelogCommandStep.SNAPSHOT_TYPES_ARG,
