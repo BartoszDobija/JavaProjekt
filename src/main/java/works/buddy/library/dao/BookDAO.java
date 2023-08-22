@@ -10,9 +10,9 @@ public interface BookDAO {
 
     void save(Book book);
 
-    Book find(Integer id) throws NotFoundException;
+    Book find(Integer id);
 
-    void delete(Integer id) throws NotFoundException;
+    void delete(Book book);
 
-    void update(Book book) throws NotFoundException;
+    void update(Book book);
 }

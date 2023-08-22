@@ -33,39 +33,22 @@ public class HibernateBookDAO implements BookDAO {
 
     @Override
     public void save(Book book) {
-        try {
-            getCurrentSession().save(book);
-        } catch (Exception e) {
-            throw new NotFoundException();
-        }
+        getCurrentSession().save(book);
     }
 
     @Override
-    public Book find(Integer id) throws NotFoundException {
-        Book book = getCurrentSession().find(Book.class, id);
-        if (book == null) {
-            throw new NotFoundException();
-        }
-        return book;
+    public Book find(Integer id) {
+        return getCurrentSession().find(Book.class, id);
     }
 
     @Override
-    public void delete(Integer id) throws NotFoundException {
-        try {
-            getCurrentSession().delete(find(id));
-        } catch (Exception e) {
-            throw new NotFoundException();
-        }
+    public void delete(Book book) {
+        getCurrentSession().delete(book);
     }
 
     @Override
-    public void update(Book book) throws NotFoundException {
-        find(book.getId());
-        try {
-            getCurrentSession().clear();
-            getCurrentSession().update(book);
-        } catch (Exception e) {
-            throw new NotFoundException();
-        }
+    public void update(Book book) {
+        getCurrentSession().clear();
+        getCurrentSession().update(book);
     }
 }

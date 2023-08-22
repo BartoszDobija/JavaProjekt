@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 import works.buddy.library.dao.BookDAO;
-import works.buddy.library.dao.NotFoundException;
 import works.buddy.library.model.Book;
 
 import javax.annotation.PostConstruct;
@@ -79,11 +78,13 @@ public class LibraryApp {
     }
 
     private void editBook() throws NotFoundException {
-        bookDAO.update(ui.getBookForUpdate());
+        Book book = ui.getBookForUpdate();
+        getBook(book.getId());
+        bookDAO.update(book);
     }
 
     private void deleteBook() throws NotFoundException {
-        bookDAO.delete(ui.getBookId());
+        bookDAO.delete(getBook(ui.getBookId()));
     }
 
     private void findBook() throws NotFoundException {
@@ -91,7 +92,11 @@ public class LibraryApp {
     }
 
     private Book getBook(Integer bookId) throws NotFoundException {
-        return bookDAO.find(bookId);
+        Book book = bookDAO.find(bookId);
+        if (book == null) {
+            throw new NotFoundException();
+        }
+        return book;
     }
 
     private void displayBookNotFound() {
