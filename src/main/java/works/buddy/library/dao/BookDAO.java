@@ -6,13 +6,13 @@ import java.util.Collection;
 
 public interface BookDAO {
 
-    Collection<Book> findAll();
-
     void save(Book book);
 
-    Book find(Integer id);
+    void update(Book book);
 
     void delete(Book book);
 
-    void update(Book book);
+    Collection<Book> findAll();
+
+    Book find(Integer id);
 }

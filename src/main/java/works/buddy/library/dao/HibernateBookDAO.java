@@ -11,7 +11,6 @@ import works.buddy.library.model.Book;
 import java.util.Collection;
 
 @Repository
-@Primary
 @Transactional
 public class HibernateBookDAO implements BookDAO {
 
@@ -27,18 +26,13 @@ public class HibernateBookDAO implements BookDAO {
     }
 
     @Override
-    public Collection<Book> findAll() {
-        return getCurrentSession().createQuery("from Book", Book.class).getResultList();
-    }
-
-    @Override
     public void save(Book book) {
         getCurrentSession().save(book);
     }
 
     @Override
-    public Book find(Integer id) {
-        return getCurrentSession().find(Book.class, id);
+    public void update(Book book) {
+        getCurrentSession().update(book);
     }
 
     @Override
@@ -47,8 +41,12 @@ public class HibernateBookDAO implements BookDAO {
     }
 
     @Override
-    public void update(Book book) {
-        getCurrentSession().clear();
-        getCurrentSession().update(book);
+    public Book find(Integer id) {
+        return getCurrentSession().find(Book.class, id);
+    }
+
+    @Override
+    public Collection<Book> findAll() {
+        return getCurrentSession().createQuery("from Book", Book.class).getResultList();
     }
 }
